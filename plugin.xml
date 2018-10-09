@@ -10,7 +10,7 @@
         point="com.ibm.team.workitem.service.editorPresentations">
             <editorPresentation
                 id="com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation"
-                widget="com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation"
+                widget="com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation.ui.LabelIntegerPresentation"
                 needsAttribute="true" />
     </extension>
 </plugin>

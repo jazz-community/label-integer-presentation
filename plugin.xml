@@ -4,13 +4,17 @@
 <plugin>
     <extension
         point="net.jazz.ajax.webBundles">
+        <alias value="com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation"></alias>
     </extension>
 
     <extension
+        id="com.siemens.bt.jazz.workitem.labelInteger"
+        name="Label Integer"
         point="com.ibm.team.workitem.service.editorPresentations">
             <editorPresentation
                 id="com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation"
                 widget="com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation.ui.LabelIntegerPresentation"
-                needsAttribute="true" />
+                needsAttribute="true">
+            </editorPresentation>
     </extension>
 </plugin>

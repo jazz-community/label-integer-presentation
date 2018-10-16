@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+
+<plugin>
+    <extension
+        point="net.jazz.ajax.webBundles">
+    </extension>
+
+    <extension
+        point="net.jazz.ajax.ajaxModules">
+        <ajaxModule id="com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations"
+            widgetClass="com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.CustomEditorPresentations">
+        </ajaxModule>
+    </extension>
+</plugin>

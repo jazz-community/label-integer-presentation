@@ -3,11 +3,10 @@ dojo.provide("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresen
 (function () {
     dojo.declare("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.CustomEditorPresentations", null,
     {
-        constructor: function () {
-            console.log("CustomEditorPresentations loaded");
-        }
+        // Empty. Don't instantiate.
     });
 
+    // Keep track of whether the presentations have already been added or not
     var addedPresentations = false;
 
     // Define a static function for adding the custom editor presentations to the project area management web ui

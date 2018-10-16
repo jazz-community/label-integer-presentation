@@ -1,0 +1,11 @@
+.labelIntegerPresentationRightLabel {
+    width: 35%;
+    padding-left: 15px;
+    padding-right: 5px;
+    padding-top: 3px;
+}
+
+.labelIntegerPresentationRightLabel > span {
+    color: #666;
+    word-wrap: break-word;
+}

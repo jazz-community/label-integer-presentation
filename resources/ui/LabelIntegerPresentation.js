@@ -14,42 +14,60 @@ dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry")
     var LabelIntegerPresentation = dojo.declare("com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation.ui.LabelIntegerPresentation",
         com.ibm.team.workitem.web.ui.internal.view.editor.presentations.attribute.IntegerPresentation,
     {
+        inputType: "number",
+
+        // Call the inherited constructor manually
         constructor: function () {
             this.inherited(arguments);
-            console.log("Loaded: com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation.ui.LabelIntegerPresentation");
         },
 
+        // Override the getId function
         getId: function () {
             return presentationId;
         },
 
         // Override the create view function to customize the result
         createView: function (context, params, domNode) {
-            console.log("createView arguments", arguments);
             var view = this.inherited(arguments);
 
+            // Check if the presentation is read only
             if (context.editorPresentation.isReadOnly()) {
-                console.log("view is readonly");
+                this._setValueWidth(view);
                 this._alignTextRight(view._value);
             } else {
-                console.log("view is editable");
-                this._setInputType(view, "number");
+                this._setInputType(view);
                 this._alignTextRight(view._input);
             }
 
-            console.log("view", view);
+            this._addRightLabelToView(view, "Euro/€"); // TODO: Get this from a custom attribute
+            // TODO: Set the right label width from a custom attribute (default: 35%)
+
             return view;
         },
 
+        // Set the width of the value node for the alignment to work
+        _setValueWidth: function (view) {
+            dojo.style(view._value, "width", "100%");
+        },
+
         // Set the view input to the specified type
-        _setInputType: function (view, inputType) {
-            view.type = inputType;
-            view._input.type = inputType;
+        _setInputType: function (view) {
+            view.type = this.inputType;
+            view._input.type = this.inputType;
         },
 
         // Align the text of the specified element to the right
         _alignTextRight: function (element) {
             dojo.style(element, "textAlign", "right");
+        },
+
+        // Add the right label to the view
+        _addRightLabelToView: function (view, rightLabel) {
+            dojo.style(view.domNode, "display", "flex");
+
+            var rightLabelDiv = dojo.create("div", { class: "labelIntegerPresentationRightLabel" }, view.domNode);
+            var rightLabelSpan = dojo.create("span", null, rightLabelDiv);
+            dojo.create("label", { innerHTML: rightLabel }, rightLabelSpan);
         }
     });
 

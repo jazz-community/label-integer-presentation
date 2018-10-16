@@ -1,6 +1,10 @@
 dojo.provide("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.CustomEditorPresentations");
 
+dojo.require("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.PresentationsToAdd");
+
 (function () {
+    var PresentationsToAdd = com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.PresentationsToAdd;
+
     dojo.declare("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.CustomEditorPresentations", null,
     {
         // Empty. Don't instantiate.
@@ -16,6 +20,12 @@ dojo.provide("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresen
             return;
         } else {
             addedPresentations = true;
+        }
+
+        var customPresentations = new PresentationsToAdd().getPresentations();
+
+        if (!customPresentations.length) {
+            return;
         }
 
         console.log("Adding custom editor presentations...");

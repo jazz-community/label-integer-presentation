@@ -16,7 +16,7 @@
 
     // Only load the customizations when on the project area management page
 	if (currentPageId === "com.ibm.team.process.ProjectAreaManagement") {
-		jazz.core.loader.load_async("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.CustomEditorPresentations", function(){
+		jazz.core.loader.load_async("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.CustomEditorPresentations", function() {
 			com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.CustomEditorPresentations.addCustomEditorPresentations();
 		});
 	}

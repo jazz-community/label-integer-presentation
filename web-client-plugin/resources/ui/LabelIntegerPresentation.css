@@ -1,3 +1,16 @@
+/*
+* Remove the spinners from number input types.
+* They mess with the event handling otherwise.
+*/
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 .labelIntegerPresentationRightLabel {
     width: 35%;
     padding-left: 15px;

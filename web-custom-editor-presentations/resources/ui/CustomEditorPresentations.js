@@ -45,7 +45,7 @@ dojo.require("com.ibm.team.workitem.web.model.types.AttributeTypes");
 
     // Override the function in the prototype so that all future instances will use the
     // customized version of the function that also adds the custom presentations
-    overridePopulateAttrBasedKinds = function (customPresentations) {
+    var overridePopulateAttrBasedKinds = function (customPresentations) {
         // Store the original "_populateAttrBasedKinds" function
         var originalPopulateAttrBasedKinds = AddPresentationContent.prototype._populateAttrBasedKinds;
 

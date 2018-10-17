@@ -8,12 +8,12 @@ dojo.provide("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresen
         constructor: function () {
             this.presentations.push(this._createPresentationConfig(
                 "com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation",
-                "com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation.ui.LabelIntegerPresentation",
+                "Label Integer",
                 "integer"
             ));
             this.presentations.push(this._createPresentationConfig(
                 "com.ibm.team.workitem.example.kind.star",
-                "com.ibm.team.workitem.example.web.ui.StarPart",
+                "Star",
                 "boolean"
             ));
         },
@@ -22,10 +22,10 @@ dojo.provide("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresen
             return this.presentations;
         },
 
-        _createPresentationConfig(id, widget, forAttributeTypeId) {
+        _createPresentationConfig(id, label, forAttributeTypeId) {
             return {
                 id: id,
-                widget: widget,
+                label: label,
                 forAttributeTypeId: forAttributeTypeId
             };
         }

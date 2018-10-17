@@ -65,7 +65,7 @@ dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry")
         _addRightLabelToView: function (view, rightLabel) {
             dojo.style(view.domNode, "display", "flex");
 
-            var rightLabelDiv = dojo.create("div", { class: "labelIntegerPresentationRightLabel" }, view.domNode);
+            var rightLabelDiv = dojo.create("div", { "class": "labelIntegerPresentationRightLabel" }, view.domNode);
             var rightLabelSpan = dojo.create("span", null, rightLabelDiv);
             dojo.create("label", { innerHTML: rightLabel }, rightLabelSpan);
         }

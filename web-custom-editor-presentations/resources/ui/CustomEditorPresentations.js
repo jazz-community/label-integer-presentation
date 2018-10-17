@@ -29,6 +29,7 @@ dojo.require("com.ibm.team.workitem.web.model.types.AttributeTypes");
             addedPresentations = true;
         }
 
+        // Get the custom presentations
         var customPresentations = new PresentationsToAdd().getPresentations();
 
         // Don't change anything if there aren't any custom presentations
@@ -36,6 +37,15 @@ dojo.require("com.ibm.team.workitem.web.model.types.AttributeTypes");
             return;
         }
 
+        // Add the custom presentations to the list of known kinds
+        overridePopulateAttrBasedKinds(customPresentations);
+
+        console.log("Adding custom editor presentations...");
+    };
+
+    // Override the function in the prototype so that all future instances will use the
+    // customized version of the function that also adds the custom presentations
+    overridePopulateAttrBasedKinds = function (customPresentations) {
         // Store the original "_populateAttrBasedKinds" function
         var originalPopulateAttrBasedKinds = AddPresentationContent.prototype._populateAttrBasedKinds;
 
@@ -96,7 +106,5 @@ dojo.require("com.ibm.team.workitem.web.model.types.AttributeTypes");
                 }, this);
             }
         };
-
-        console.log("Adding custom editor presentations...");
     };
 })();

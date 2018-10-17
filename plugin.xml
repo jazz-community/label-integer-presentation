@@ -20,7 +20,7 @@
 
     <extension
 		point="net.jazz.ajax.cssBindingSets">
-		<cssBindingSet id="com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation" path="">
+		<cssBindingSet id="com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation.CSSBindingSet" path="">
 			<cssBinding jsModule="com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation.ui.LabelIntegerPresentation">
 				<cssModule path="/ui/LabelIntegerPresentation.css"/>
 			</cssBinding>

@@ -49,6 +49,8 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.di
         // Add presentation widgets for the custom presentations
         overrideGetDesigntimeWidget(customPresentations);
 
+        overridePropertiesTablePostCreate();
+
         overridePopulateProperties();
     };
 
@@ -143,6 +145,38 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.di
                 ? customDesignTimeWidget
                 : originalGetDesigntimeWidget.apply(this, arguments);
         }
+    };
+
+    var overridePropertiesTablePostCreate = function () {
+        var originalPostCreate = PropertiesTable.prototype.postCreate;
+
+        PropertiesTable.prototype.postCreate = function () {
+            console.log("this from post create", this);
+            console.log("arguments", arguments);
+
+            originalPostCreate.apply(this, arguments);
+
+            dojo.create("a", {
+                innerHTML: "Add New",
+                style: {
+                    "float": "right",
+                    "font-weight": "bold",
+                    "margin-right": "5px"
+                },
+                href: "#",
+                onclick: dojo.hitch(this, function(e){
+                    dojo.stopEvent(e);
+
+                    var newPropName = prompt("New property key", "");
+
+                    if (newPropName) {
+                        this.presentationProperties.addProperty(newPropName, "");
+                        var newProp = this.presentationProperties._properties[this.presentationProperties._properties.length - 1];
+                        this._addPropertyRow(newProp);
+                    }
+				})
+            }, this._table.domNode, "before");
+        };
     };
 
     var overridePopulateProperties = function () {

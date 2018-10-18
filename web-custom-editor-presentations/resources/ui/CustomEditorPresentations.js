@@ -3,14 +3,18 @@ dojo.provide("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresen
 dojo.require("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.PresentationsToAdd");
 dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.dialogs.AddPresentationContent");
 dojo.require("com.ibm.team.workitem.web.model.types.AttributeTypes");
+dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.common.TemplatedWidget");
+dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.parts.PartsMapping");
 
 (function () {
     var PresentationsToAdd = com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.PresentationsToAdd;
     var AddPresentationContent = com.ibm.team.workitem.web.process.ui.internal.view.presentation.dialogs.AddPresentationContent;
     var AttributeTypes = com.ibm.team.workitem.web.model.types.AttributeTypes;
+    var PartsMapping = com.ibm.team.workitem.web.process.ui.internal.view.presentation.parts.PartsMapping;
 
     var ENUM_TYPE= "com.ibm.team.workitem.attributeType.enumerationTypes";
     var ENUM_LIST_TYPE= "com.ibm.team.workitem.attributeType.enumerationListTypes";
+    var TEMPLATED_WIDGET = "com.ibm.team.workitem.web.process.ui.internal.view.common.TemplatedWidget";
 
     dojo.declare("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.CustomEditorPresentations", null,
     {
@@ -39,6 +43,9 @@ dojo.require("com.ibm.team.workitem.web.model.types.AttributeTypes");
 
         // Add the custom presentations to the list of known kinds
         overridePopulateAttrBasedKinds(customPresentations);
+
+        // Add presentation widgets for the custom presentations
+        overrideGetDesigntimeWidget(customPresentations);
 
         console.log("Adding custom editor presentations...");
     };
@@ -106,5 +113,38 @@ dojo.require("com.ibm.team.workitem.web.model.types.AttributeTypes");
                 }, this);
             }
         };
+    };
+
+    // Override this function to add preview presentations for the custom presentations
+    var overrideGetDesigntimeWidget = function (customPresentations) {
+        // Store the original prototype function
+        var originalGetDesigntimeWidget = PartsMapping.getDesigntimeWidget;
+
+        // Override the function in the prototype
+        PartsMapping.getDesigntimeWidget = function (presentationWidget) {
+            console.log("this from get design time widget", this);
+            console.log("arguments", arguments);
+
+            var customDesignTimeWidget = null;
+
+            if (presentationWidget) {
+                dojo.forEach(customPresentations, function (customPresentation) {
+                    if (customPresentation.widget === presentationWidget) {
+                        console.log("matches for widget", customPresentation);
+                        customDesignTimeWidget = {
+                            widgetClass: TEMPLATED_WIDGET,
+                            widgetParams: {
+                                templateString: '<div class="GreyLabel" style="font-style:italic;">' + customPresentation.label + '</div>'
+                            }
+                        };
+                    }
+                }, this);
+            }
+
+            // Return either the custom widget or the result of the original function
+            return customDesignTimeWidget !== null
+                ? customDesignTimeWidget
+                : originalGetDesigntimeWidget.apply(this, arguments);
+        }
     };
 })();

@@ -174,14 +174,20 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.di
                     dojo.stopEvent(e);
 
                     // Prompt for a new property name
-                    var newPropertyName = prompt("New property key", "");
+                    var newPropertyKey = prompt("New property key", "");
 
                     // Add the new property to the array of properties and
                     // a new row to the table if we got a new property name
-                    if (newPropertyName) {
-                        this.presentationProperties.addProperty(newPropertyName, "");
-                        var newProperty = this.presentationProperties._properties[this.presentationProperties._properties.length - 1];
-                        this._addPropertyRow(newProperty);
+                    if (newPropertyKey) {
+                        var numberOfProperties = this.presentationProperties._properties.length;
+                        this.presentationProperties.addProperty(newPropertyKey, "");
+
+                        // Only add a new row in the table if the property was added to the list of properties.
+                        // When the key is the same as one of the existing properties it wont be added.
+                        if (numberOfProperties + 1 === this.presentationProperties._properties.length) {
+                            var newProperty = this.presentationProperties._properties[numberOfProperties];
+                            this._addPropertyRow(newProperty);
+                        }
                     }
 				})
             }, this._table.domNode, "before");

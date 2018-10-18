@@ -3,7 +3,7 @@ dojo.provide("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresen
 (function () {
     dojo.declare("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.PresentationsToAdd", null,
     {
-        getPresentations() {
+        getPresentations: function() {
             var presentations = [];
 
             presentations.push(this._createPresentationConfig(
@@ -20,7 +20,7 @@ dojo.provide("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresen
             return presentations;
         },
 
-        _createPresentationConfig(id, label, forAttributeTypeId) {
+        _createPresentationConfig: function(id, label, forAttributeTypeId) {
             return {
                 id: id,
                 label: label,

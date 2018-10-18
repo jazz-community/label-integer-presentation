@@ -46,8 +46,6 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.pa
 
         // Add presentation widgets for the custom presentations
         overrideGetDesigntimeWidget(customPresentations);
-
-        console.log("Adding custom editor presentations...");
     };
 
     // Override the function in the prototype so that all future instances will use the
@@ -59,9 +57,6 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.pa
         // Override the "_populateAttrBasedKinds" function with a new one that calls
         // the original function and also adds the custom presentations
         AddPresentationContent.prototype._populateAttrBasedKinds = function () {
-            console.log("this from populate attr based kinds", this);
-            console.log("arguments", arguments);
-
             // First run the original function
             originalPopulateAttrBasedKinds.apply(this, arguments);
 
@@ -95,8 +90,6 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.pa
 
             // Only continue if we found the attribute type id
             if (attributeTypeId) {
-                console.log("current attributeTypeId", attributeTypeId);
-
                 // Iterate over all custom presentations
                 dojo.forEach(customPresentations, function (customPresentation) {
                     // Check if the custom presentation is meant for this type of attribute
@@ -122,15 +115,15 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.pa
 
         // Override the function in the prototype
         PartsMapping.getDesigntimeWidget = function (presentationWidget) {
-            console.log("this from get design time widget", this);
-            console.log("arguments", arguments);
-
             var customDesignTimeWidget = null;
 
+            // Check if we got a presentation widget id
             if (presentationWidget) {
+                // Iterate over all custom presentations
                 dojo.forEach(customPresentations, function (customPresentation) {
+                    // Check if the presentation widget is a custom presentation
                     if (customPresentation.widget === presentationWidget) {
-                        console.log("matches for widget", customPresentation);
+                        // Create a custom presentation widget using the name of the presentation
                         customDesignTimeWidget = {
                             widgetClass: TEMPLATED_WIDGET,
                             widgetParams: {

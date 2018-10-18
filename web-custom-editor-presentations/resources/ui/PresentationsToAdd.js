@@ -3,6 +3,7 @@ dojo.provide("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresen
 (function () {
     dojo.declare("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.PresentationsToAdd", null,
     {
+        // Get a list of all custom presentations to add to the project area management page
         getPresentations: function() {
             var presentations = [];
 

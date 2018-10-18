@@ -188,25 +188,30 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.di
         };
     };
 
+    // Override the populateProperties function to also add custom properties
+    // to the table in the ui
     var overridePopulateProperties = function () {
+        // Store the original prototype function
         var originalPopulateProperties = PropertiesTable.prototype.populateProperties;
 
+        // Override the function in the prototype
         PropertiesTable.prototype.populateProperties = function (presentationProperties) {
-            console.log("this from populate properties", this);
-            console.log("arguments", arguments);
-            console.log("presentationProperties", presentationProperties);
-
+            // Get the presentation properties
             var propertyValues = presentationProperties.getValues();
 
+            // Check if there are any presentation properties
             if (propertyValues && propertyValues.length) {
+                // Iterate over all the presentation properties from this presentation
                 dojo.forEach(propertyValues, function (presentationProperty) {
-                    console.log("presentationProperty", presentationProperty);
+                    // Check if the presentation property is in the list of properties to show
                     if (!this.propSpec.hasOwnProperty(presentationProperty.key)) {
+                        // Add the presentation property if it's missing (this is for all custom properties)
                         this.propSpec[presentationProperty.key] = [];
                     }
                 }, this);
             }
 
+            // Call the original function
             originalPopulateProperties.apply(this, arguments);
         };
     };

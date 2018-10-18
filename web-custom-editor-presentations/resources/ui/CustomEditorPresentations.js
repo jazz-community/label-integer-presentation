@@ -49,8 +49,10 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.di
         // Add presentation widgets for the custom presentations
         overrideGetDesigntimeWidget(customPresentations);
 
+        // Add a button for adding new custom properties
         overridePropertiesTablePostCreate();
 
+        // Load existing custom properties in the table
         overridePopulateProperties();
     };
 
@@ -147,15 +149,18 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.di
         }
     };
 
+    // Override the postCreate function to add a new button for creating custom
+    // properties from the web ui
     var overridePropertiesTablePostCreate = function () {
+        // Store the original prototype function
         var originalPostCreate = PropertiesTable.prototype.postCreate;
 
+        // Override the function in the prototype
         PropertiesTable.prototype.postCreate = function () {
-            console.log("this from post create", this);
-            console.log("arguments", arguments);
-
+            // First call the original function
             originalPostCreate.apply(this, arguments);
 
+            // Add a link for creating a new property
             dojo.create("a", {
                 innerHTML: "Add New",
                 style: {
@@ -165,14 +170,18 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.di
                 },
                 href: "#",
                 onclick: dojo.hitch(this, function(e){
+                    // Prevent the default link behavior
                     dojo.stopEvent(e);
 
-                    var newPropName = prompt("New property key", "");
+                    // Prompt for a new property name
+                    var newPropertyName = prompt("New property key", "");
 
-                    if (newPropName) {
-                        this.presentationProperties.addProperty(newPropName, "");
-                        var newProp = this.presentationProperties._properties[this.presentationProperties._properties.length - 1];
-                        this._addPropertyRow(newProp);
+                    // Add the new property to the array of properties and
+                    // a new row to the table if we got a new property name
+                    if (newPropertyName) {
+                        this.presentationProperties.addProperty(newPropertyName, "");
+                        var newProperty = this.presentationProperties._properties[this.presentationProperties._properties.length - 1];
+                        this._addPropertyRow(newProperty);
                     }
 				})
             }, this._table.domNode, "before");

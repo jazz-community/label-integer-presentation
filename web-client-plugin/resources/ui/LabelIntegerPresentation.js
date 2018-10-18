@@ -39,8 +39,13 @@ dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry")
                 this._alignTextRight(view._input);
             }
 
-            this._addRightLabelToView(view, "Euro/€"); // TODO: Get this from a custom attribute
-            // TODO: Set the right label width from a custom attribute (default: 35%)
+            var rightLabel = params.editorPresentation.getProperty("RightLabel");
+            var rightLabelWidth = params.editorPresentation.getProperty("RightLabelWidth");
+
+            // Add the right label only if it was set in the properties
+            if (rightLabel) {
+                this._addRightLabelToView(view, rightLabel, rightLabelWidth);
+            }
 
             return view;
         },
@@ -62,10 +67,16 @@ dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry")
         },
 
         // Add the right label to the view
-        _addRightLabelToView: function (view, rightLabel) {
+        _addRightLabelToView: function (view, rightLabel, rightLabelWidth) {
             dojo.style(view.domNode, "display", "flex");
 
             var rightLabelDiv = dojo.create("div", { "class": "labelIntegerPresentationRightLabel" }, view.domNode);
+
+            // Set the custom width if it was set in the properties. Default is 35%
+            if (rightLabelWidth) {
+                dojo.style(rightLabelDiv, "width", rightLabelWidth);
+            }
+
             var rightLabelSpan = dojo.create("span", null, rightLabelDiv);
             dojo.create("label", { innerHTML: rightLabel }, rightLabelSpan);
         }

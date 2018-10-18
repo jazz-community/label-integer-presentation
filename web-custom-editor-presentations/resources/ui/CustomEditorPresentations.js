@@ -5,12 +5,14 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.di
 dojo.require("com.ibm.team.workitem.web.model.types.AttributeTypes");
 dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.common.TemplatedWidget");
 dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.parts.PartsMapping");
+dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.dialogs.PropertiesTable");
 
 (function () {
     var PresentationsToAdd = com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.PresentationsToAdd;
     var AddPresentationContent = com.ibm.team.workitem.web.process.ui.internal.view.presentation.dialogs.AddPresentationContent;
     var AttributeTypes = com.ibm.team.workitem.web.model.types.AttributeTypes;
     var PartsMapping = com.ibm.team.workitem.web.process.ui.internal.view.presentation.parts.PartsMapping;
+    var PropertiesTable = com.ibm.team.workitem.web.process.ui.internal.view.presentation.dialogs.PropertiesTable;
 
     var ENUM_TYPE= "com.ibm.team.workitem.attributeType.enumerationTypes";
     var ENUM_LIST_TYPE= "com.ibm.team.workitem.attributeType.enumerationListTypes";
@@ -46,6 +48,8 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.pa
 
         // Add presentation widgets for the custom presentations
         overrideGetDesigntimeWidget(customPresentations);
+
+        overridePopulateProperties();
     };
 
     // Override the function in the prototype so that all future instances will use the
@@ -139,5 +143,28 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.pa
                 ? customDesignTimeWidget
                 : originalGetDesigntimeWidget.apply(this, arguments);
         }
+    };
+
+    var overridePopulateProperties = function () {
+        var originalPopulateProperties = PropertiesTable.prototype.populateProperties;
+
+        PropertiesTable.prototype.populateProperties = function (presentationProperties) {
+            console.log("this from populate properties", this);
+            console.log("arguments", arguments);
+            console.log("presentationProperties", presentationProperties);
+
+            var propertyValues = presentationProperties.getValues();
+
+            if (propertyValues && propertyValues.length) {
+                dojo.forEach(propertyValues, function (presentationProperty) {
+                    console.log("presentationProperty", presentationProperty);
+                    if (!this.propSpec.hasOwnProperty(presentationProperty.key)) {
+                        this.propSpec[presentationProperty.key] = [];
+                    }
+                }, this);
+            }
+
+            originalPopulateProperties.apply(this, arguments);
+        };
     };
 })();

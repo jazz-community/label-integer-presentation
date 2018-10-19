@@ -187,6 +187,8 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.di
                         if (numberOfProperties + 1 === this.presentationProperties._properties.length) {
                             var newProperty = this.presentationProperties._properties[numberOfProperties];
                             this._addPropertyRow(newProperty);
+                        } else {
+                            alert("Property key already exists");
                         }
                     }
 				})

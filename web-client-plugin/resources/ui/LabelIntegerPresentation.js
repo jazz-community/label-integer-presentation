@@ -29,9 +29,14 @@ dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry")
         // Override the create view function to customize the result
         createView: function (context, params, domNode) {
             var view = this.inherited(arguments);
+            var readOnly = context.editorPresentation.isReadOnly();
+
+            // Get the label and width from the properties
+            var rightLabel = params.editorPresentation.getProperty("RightLabel");
+            var rightLabelWidth = params.editorPresentation.getProperty("RightLabelWidth");
 
             // Check if the presentation is read only
-            if (context.editorPresentation.isReadOnly()) {
+            if (readOnly) {
                 this._setValueWidth(view);
                 this._alignTextRight(view._value);
             } else {
@@ -39,12 +44,9 @@ dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry")
                 this._alignTextRight(view._input);
             }
 
-            var rightLabel = params.editorPresentation.getProperty("RightLabel");
-            var rightLabelWidth = params.editorPresentation.getProperty("RightLabelWidth");
-
             // Add the right label only if it was set in the properties
             if (rightLabel) {
-                this._addRightLabelToView(view, rightLabel, rightLabelWidth);
+                this._addRightLabelToView(view, rightLabel, rightLabelWidth, readOnly);
             }
 
             return view;
@@ -67,18 +69,22 @@ dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry")
         },
 
         // Add the right label to the view
-        _addRightLabelToView: function (view, rightLabel, rightLabelWidth) {
+        _addRightLabelToView: function (view, rightLabel, rightLabelWidth, readOnly) {
             dojo.style(view.domNode, "display", "flex");
 
             var rightLabelDiv = dojo.create("div", { "class": "labelIntegerPresentationRightLabel" }, view.domNode);
+
+            // Add another css class if the presentation is editable
+            if (!readOnly) {
+                dojo.addClass(rightLabelDiv, "labelIntegerPresentationRightLabelEditable");
+            }
 
             // Set the custom width if it was set in the properties. Default is 35%
             if (rightLabelWidth) {
                 dojo.style(rightLabelDiv, "width", rightLabelWidth);
             }
 
-            var rightLabelSpan = dojo.create("span", null, rightLabelDiv);
-            dojo.create("label", { innerHTML: rightLabel }, rightLabelSpan);
+            dojo.create("span", { innerHTML: rightLabel }, rightLabelDiv);
         }
     });
 

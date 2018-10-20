@@ -1,20 +1,35 @@
+/**
+  * Set the input to be as wide as it can be
+  * and align it's text to the right.
+  */
 .labelIntegerPresentationInput {
     width: 100%;
     flex: 1 1 auto;
     text-align: right;
 }
 
+/**
+ * Add some padding to the right label and
+ * set the width to be at least as wide as the
+ * text but not wider than 50% of the space.
+ */
 .labelIntegerPresentationRightLabel {
-    max-width: 50%;
     padding-left: 15px;
     padding-right: 5px;
+    max-width: 50%;
     flex: 1 0 auto;
 }
 
+/**
+ * Fix the padding for the editable version.
+ */
 .labelIntegerPresentationRightLabelEditable {
     padding-top: 2px;
 }
 
+/**
+ * Style the label gray to match the built in labels.
+ */
 .labelIntegerPresentationRightLabel > span {
     color: #666;
     word-wrap: break-word;

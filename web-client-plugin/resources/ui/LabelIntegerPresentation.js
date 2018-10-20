@@ -57,6 +57,7 @@ dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry")
         _addRightLabelToView: function (view, rightLabel, rightLabelWidth, readOnly) {
             dojo.style(view.domNode, "display", "flex");
 
+            // Create an element for positioning the label
             var rightLabelDiv = dojo.create("div", { "class": "labelIntegerPresentationRightLabel" }, view.domNode);
 
             // Add another css class if the presentation is editable
@@ -69,6 +70,7 @@ dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry")
                 dojo.style(rightLabelDiv, "width", rightLabelWidth);
             }
 
+            // Create an element containing the label text
             dojo.create("span", { innerHTML: rightLabel }, rightLabelDiv);
         }
     });

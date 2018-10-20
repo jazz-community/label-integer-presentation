@@ -14,8 +14,6 @@ dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry")
     var LabelIntegerPresentation = dojo.declare("com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation.ui.LabelIntegerPresentation",
         com.ibm.team.workitem.web.ui.internal.view.editor.presentations.attribute.IntegerPresentation,
     {
-        inputType: "number",
-
         // Call the inherited constructor manually
         constructor: function () {
             this.inherited(arguments);
@@ -40,7 +38,6 @@ dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry")
                 this._setValueWidth(view);
                 this._alignTextRight(view._value);
             } else {
-                this._setInputType(view);
                 this._alignTextRight(view._input);
             }
 
@@ -55,12 +52,6 @@ dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry")
         // Set the width of the value node for the alignment to work
         _setValueWidth: function (view) {
             dojo.style(view._value, "width", "100%");
-        },
-
-        // Set the view input to the specified type
-        _setInputType: function (view) {
-            view.type = this.inputType;
-            view._input.type = this.inputType;
         },
 
         // Align the text of the specified element to the right

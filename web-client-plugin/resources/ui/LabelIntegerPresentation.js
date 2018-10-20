@@ -26,37 +26,31 @@ dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry")
 
         // Override the create view function to customize the result
         createView: function (context, params, domNode) {
+            // Create the view using the inherited function
             var view = this.inherited(arguments);
+
+            // Check if the presentation is read only
             var readOnly = context.editorPresentation.isReadOnly();
 
             // Get the label and width from the properties
             var rightLabel = params.editorPresentation.getProperty("RightLabel");
             var rightLabelWidth = params.editorPresentation.getProperty("RightLabelWidth");
 
-            // Check if the presentation is read only
-            if (readOnly) {
-                this._setValueWidth(view);
-                this._alignTextRight(view._value);
-            } else {
-                this._alignTextRight(view._input);
-            }
+            // Add styling to the input element
+            this._styleInputElement(view, readOnly);
 
             // Add the right label only if it was set in the properties
             if (rightLabel) {
                 this._addRightLabelToView(view, rightLabel, rightLabelWidth, readOnly);
             }
 
+            // Return the modified view
             return view;
         },
 
-        // Set the width of the value node for the alignment to work
-        _setValueWidth: function (view) {
-            dojo.style(view._value, "width", "100%");
-        },
-
-        // Align the text of the specified element to the right
-        _alignTextRight: function (element) {
-            dojo.style(element, "textAlign", "right");
+        // Add some styling to the input element
+        _styleInputElement: function (view, readOnly) {
+            dojo.addClass(readOnly ? view._value : view._input, "labelIntegerPresentationInput");
         },
 
         // Add the right label to the view
@@ -70,7 +64,7 @@ dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry")
                 dojo.addClass(rightLabelDiv, "labelIntegerPresentationRightLabelEditable");
             }
 
-            // Set the custom width if it was set in the properties. Default is 35%
+            // Set the custom width if it was set in the properties. Default is to fit the text
             if (rightLabelWidth) {
                 dojo.style(rightLabelDiv, "width", rightLabelWidth);
             }

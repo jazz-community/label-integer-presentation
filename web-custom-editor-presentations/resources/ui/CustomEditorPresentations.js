@@ -204,23 +204,20 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.di
 
         // Override the function in the prototype
         PropertiesTable.prototype.populateProperties = function (presentationProperties) {
+            // First call the original function
+            originalPopulateProperties.apply(this, arguments);
+
             // Get the presentation properties
             var propertyValues = presentationProperties.getValues();
 
-            // Check if there are any presentation properties
-            if (propertyValues && propertyValues.length) {
-                // Iterate over all the presentation properties from this presentation
-                dojo.forEach(propertyValues, function (presentationProperty) {
-                    // Check if the presentation property is in the list of properties to show
-                    if (!this.propSpec.hasOwnProperty(presentationProperty.key)) {
-                        // Add the presentation property if it's missing (this is for all custom properties)
-                        this.propSpec[presentationProperty.key] = [];
-                    }
-                }, this);
-            }
-
-            // Call the original function
-            originalPopulateProperties.apply(this, arguments);
+            // Iterate over all the presentation properties from this presentation
+            dojo.forEach(propertyValues, function (presentationProperty) {
+                // Check if the presentation property is in the list of properties to show
+                if (!this.propSpec.hasOwnProperty(presentationProperty.key)) {
+                    // Add the presentation property if it's missing (this is for all custom properties)
+                    this._addPropertyRow(presentationProperty);
+                }
+            }, this);
         };
     };
 })();

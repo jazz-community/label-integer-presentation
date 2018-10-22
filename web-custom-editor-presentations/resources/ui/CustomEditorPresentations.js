@@ -54,6 +54,9 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.di
 
         // Load existing custom properties in the table
         overridePopulateProperties();
+
+        // Add a custom edit property button
+        overrideAddPropertyRow();
     };
 
     // Override the function in the prototype so that all future instances will use the
@@ -218,6 +221,41 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.di
                     this._addPropertyRow(presentationProperty);
                 }
             }, this);
+        };
+    };
+
+    // Override the _addPropertyRow function to add a custom edit button to all
+    // properties in the table
+    var overrideAddPropertyRow = function () {
+        // Override the function in the prototype
+        PropertiesTable.prototype._addPropertyRow = function (property) {
+            var self = this;
+
+            this._table.addItem({
+                key: property.key,
+                value: property,
+                actions: [{
+                    iconClass: "edit-dlg-command",
+                    title: "Edit as JSON",
+                    onClick: function () {
+                        alert("You clicked edit");
+                        console.log("Property", property);
+                    }
+                },
+                {
+                    iconClass: "delete-command",
+                    title: this.messages.RemoveProperty,
+                    onClick: function() {
+                        if (property.key && property.key.length > 0) {
+                            if (!confirm(dojo.string.substitute(self.messages.ConfirmRemoveProp, [property.key]))) {
+                                return;
+                            }
+                        }
+                        self.presentationProperties.deleteProperty(property.key);
+                        self.populateProperties(self.presentationProperties);
+                    }
+                }]
+            });
         };
     };
 })();

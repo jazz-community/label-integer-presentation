@@ -169,7 +169,7 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.di
                     "margin-right": "5px"
                 },
                 href: "#",
-                onclick: dojo.hitch(this, function(e){
+                onclick: dojo.hitch(this, function(e) {
                     // Prevent the default link behavior
                     dojo.stopEvent(e);
 

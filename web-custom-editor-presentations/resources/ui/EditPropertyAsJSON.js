@@ -29,7 +29,7 @@ dojo.require("dijit.Dialog");
             // Create the dialog widget
             var dialog = new Dialog({
                 title: "Edit " + this.property.key + " as JSON",
-                content: this.property.value
+                content: this._createDialogContent()
             });
 
             // Destroy the widget in the dom when it's hidden
@@ -38,6 +38,15 @@ dojo.require("dijit.Dialog");
             };
 
             return dialog;
+        },
+
+        _createDialogContent: function () {
+            var dialogContent = dojo.create("div", {
+                innerHTML: this.property.value,
+                "class": "editPropertyAsJsonDialogContent"
+            });
+
+            return dialogContent;
         }
     });
 })();

@@ -45,36 +45,32 @@ dojo.require("dijit.Dialog");
                 "class": "editPropertyAsJsonDialogContent"
             });
 
-            this._addKeyContainer(dialogContent);
-            this._addValueContainer(dialogContent);
+            this._addLabelWithValue(dialogContent, "Property key: ", dojo.create("span", {
+                innerHTML: this.property.key
+            }));
+            this._addLabelWithValue(dialogContent, "Property value: ", this._createValuePresentation());
 
             return dialogContent;
         },
 
-        _addKeyContainer: function (dialogContent) {
-            var keyContainer = dojo.create("div", {
-                "class": "editPropertyAsJsonContainer"
-            }, dialogContent);
-            dojo.create("span", {
-                innerHTML: "Property key: ",
-                "class": "editPropertyAsJsonLabel"
-            }, keyContainer);
-            dojo.create("span", {
-                innerHTML: this.property.key
-            }, keyContainer);
-        },
-
-        _addValueContainer: function (dialogContent) {
+        _addLabelWithValue: function (dialogContent, labelText, valueNode) {
             var valueContainer = dojo.create("div", {
                 "class": "editPropertyAsJsonContainer"
             }, dialogContent);
             dojo.create("span", {
-                innerHTML: "Property value: ",
+                innerHTML: labelText,
                 "class": "editPropertyAsJsonLabel"
             }, valueContainer);
-            dojo.create("div", {
-                innerHTML: this.property.value
-            }, valueContainer);
+            dojo.place(valueNode, valueContainer);
+        },
+
+        _createValuePresentation: function () {
+            var valuePresentationNode = dojo.create("div", {
+                innerHTML: this.property.value,
+                "class": "editPropertyAsJsonValueContainer"
+            });
+
+            return valuePresentationNode;
         }
     });
 })();

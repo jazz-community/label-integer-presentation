@@ -28,7 +28,7 @@ dojo.require("dijit.Dialog");
 
             // Create the dialog widget
             var dialog = new Dialog({
-                title: "Edit " + this.property.key + " as JSON",
+                title: "Edit as JSON",
                 content: this._createDialogContent()
             });
 
@@ -42,11 +42,39 @@ dojo.require("dijit.Dialog");
 
         _createDialogContent: function () {
             var dialogContent = dojo.create("div", {
-                innerHTML: this.property.value,
                 "class": "editPropertyAsJsonDialogContent"
             });
 
+            this._addKeyContainer(dialogContent);
+            this._addValueContainer(dialogContent);
+
             return dialogContent;
+        },
+
+        _addKeyContainer: function (dialogContent) {
+            var keyContainer = dojo.create("div", {
+                "class": "editPropertyAsJsonContainer"
+            }, dialogContent);
+            dojo.create("span", {
+                innerHTML: "Property key: ",
+                "class": "editPropertyAsJsonLabel"
+            }, keyContainer);
+            dojo.create("span", {
+                innerHTML: this.property.key
+            }, keyContainer);
+        },
+
+        _addValueContainer: function (dialogContent) {
+            var valueContainer = dojo.create("div", {
+                "class": "editPropertyAsJsonContainer"
+            }, dialogContent);
+            dojo.create("span", {
+                innerHTML: "Property value: ",
+                "class": "editPropertyAsJsonLabel"
+            }, valueContainer);
+            dojo.create("div", {
+                innerHTML: this.property.value
+            }, valueContainer);
         }
     });
 })();

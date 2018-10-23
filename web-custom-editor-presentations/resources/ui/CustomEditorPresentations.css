@@ -1,4 +1,17 @@
 .editPropertyAsJsonDialogContent {
     height: 80vh;
     width: 80vw;
+    padding: 5px;
+}
+
+.editPropertyAsJsonContainer {
+    border: 1px solid lightgray;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.editPropertyAsJsonLabel {
+    display: inline-block;
+    width: 100px;
+    color: #666;
 }

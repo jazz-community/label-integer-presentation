@@ -67,7 +67,12 @@ dojo.require("dijit.Dialog");
         _createValuePresentation: function () {
             var valuePresentationNode = dojo.create("textarea", {
                 value: this.property.value,
-                "class": "editPropertyAsJsonValueContainer"
+                "class": "editPropertyAsJsonValueContainer",
+                "autocomplete": "off",
+                "autocorrect": "off",
+                "autocapitalize": "off",
+                "spellcheck": "false",
+                "data-gramm": "false"
             });
 
             return valuePresentationNode;

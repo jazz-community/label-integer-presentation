@@ -1,15 +1,18 @@
 dojo.provide("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.EditPropertyAsJSON");
 
 dojo.require("dijit.Dialog");
+dojo.require("dijit.form.Textarea");
 
 (function () {
     var Dialog = dijit.Dialog;
+    var Textarea = dijit.form.Textarea;
 
     dojo.declare("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.EditPropertyAsJSON", null,
     {
         presentationProperties: null,
         property: null,
         dialog: null,
+        jsonTextarea: null,
 
         constructor: function (parameters) {
             this.presentationProperties = parameters.presentationProperties;
@@ -31,6 +34,8 @@ dojo.require("dijit.Dialog");
                 title: "Edit as JSON",
                 content: this._createDialogContent()
             });
+
+            dojo.style(dialog.containerNode, "overflow", "auto");
 
             // Destroy the widget in the dom when it's hidden
             dialog.onHide = function () {
@@ -65,7 +70,7 @@ dojo.require("dijit.Dialog");
         },
 
         _createValuePresentation: function () {
-            var valuePresentationNode = dojo.create("textarea", {
+            this.jsonTextarea = new Textarea({
                 value: this.property.value,
                 "class": "editPropertyAsJsonValueContainer",
                 "autocomplete": "off",
@@ -74,8 +79,9 @@ dojo.require("dijit.Dialog");
                 "spellcheck": "false",
                 "data-gramm": "false"
             });
+            this.jsonTextarea.startup();
 
-            return valuePresentationNode;
+            return this.jsonTextarea.domNode;
         }
     });
 })();

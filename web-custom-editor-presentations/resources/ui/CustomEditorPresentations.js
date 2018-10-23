@@ -227,10 +227,15 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.di
     // Override the _addPropertyRow function to add a custom edit button to all
     // properties in the table
     var overrideAddPropertyRow = function () {
-        // Override the function in the prototype
+        // Override the function in the prototype.
+        // We don't need to save or call the original function because the new function
+        // that we are replacing it with contains all the functionality of the original.
         PropertiesTable.prototype._addPropertyRow = function (property) {
             var self = this;
 
+            // Add a property to the html table in the view.
+            // The first action is the custom edit button, the second one is the normal
+            // delete button.
             this._table.addItem({
                 key: property.key,
                 value: property,
@@ -246,11 +251,16 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.di
                     iconClass: "delete-command",
                     title: this.messages.RemoveProperty,
                     onClick: function() {
+                        // Check if the property key has a value
                         if (property.key && property.key.length > 0) {
+                            // Ask before removing a property with a non-empty key
                             if (!confirm(dojo.string.substitute(self.messages.ConfirmRemoveProp, [property.key]))) {
+                                // Don't remove the property if the user cancels the action
                                 return;
                             }
                         }
+
+                        // Delete the property and redraw the view
                         self.presentationProperties.deleteProperty(property.key);
                         self.populateProperties(self.presentationProperties);
                     }

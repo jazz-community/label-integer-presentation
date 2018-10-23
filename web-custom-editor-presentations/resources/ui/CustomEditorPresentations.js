@@ -1,6 +1,7 @@
 dojo.provide("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.CustomEditorPresentations");
 
 dojo.require("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.PresentationsToAdd");
+dojo.require("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.EditPropertyAsJSON");
 dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.dialogs.AddPresentationContent");
 dojo.require("com.ibm.team.workitem.web.model.types.AttributeTypes");
 dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.common.TemplatedWidget");
@@ -9,6 +10,7 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.di
 
 (function () {
     var PresentationsToAdd = com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.PresentationsToAdd;
+    var EditPropertyAsJSON = com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.EditPropertyAsJSON;
     var AddPresentationContent = com.ibm.team.workitem.web.process.ui.internal.view.presentation.dialogs.AddPresentationContent;
     var AttributeTypes = com.ibm.team.workitem.web.model.types.AttributeTypes;
     var PartsMapping = com.ibm.team.workitem.web.process.ui.internal.view.presentation.parts.PartsMapping;
@@ -243,8 +245,11 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.di
                     iconClass: "edit-dlg-command",
                     title: "Edit as JSON",
                     onClick: function () {
-                        alert("You clicked edit");
-                        console.log("Property", property);
+                        var editPropertyAsJSON = new EditPropertyAsJSON({
+                            presentationProperties: self.presentationProperties,
+                            property: property
+                        });
+                        editPropertyAsJSON.openDialog();
                     }
                 },
                 {

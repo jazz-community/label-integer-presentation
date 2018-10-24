@@ -4,18 +4,23 @@
     padding: 5px;
 }
 
+.editPropertyAsJsonDialogContent
 .editPropertyAsJsonContainer {
     border: 1px solid lightgray;
     padding: 5px;
     margin-bottom: 10px;
 }
 
+.editPropertyAsJsonDialogContent
+.editPropertyAsJsonContainer
 .editPropertyAsJsonLabel {
     display: inline-block;
     width: 100px;
     color: #666;
 }
 
+.editPropertyAsJsonDialogContent
+.editPropertyAsJsonContainer
 .editPropertyAsJsonValueContainer {
     display: block;
     box-sizing: border-box;
@@ -23,8 +28,8 @@
     min-height: 200px;
     width: calc(100% - 20px);
     margin: 10px;
-    border: 5px solid green!important;
-    background-color: #20262e!important;
-    color: white!important;
+    border: 5px solid green;
+    background-color: #20262e;
+    color: white;
     font-family: monospace;
 }

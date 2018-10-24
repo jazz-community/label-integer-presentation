@@ -50,8 +50,22 @@
     background-color: #EEE;
     box-shadow: 0 2px 5px lightgrey;
     border-radius: 4px;
-    transform: translate(5%, -70%);
+    transform: translate(5%, -90%);
     transition: top 0.1s ease 0s, left 0.1s ease 0s;
+}
+
+.editPropertyAsJsonDialogContent
+.editPropertyAsJsonContainer
+.editPropertyAsJsonErrorMessage:after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 10px;
+    width: 15px;
+    content: '';
+    background-color: #EEE;
+    z-index: -1;
+    transform: translate(-10%, 10%) rotate(-15deg) skewX(-40deg);
 }
 
 .editPropertyAsJsonDialogContent

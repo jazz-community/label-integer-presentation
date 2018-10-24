@@ -134,6 +134,8 @@ dojo.require("dijit.form.Textarea");
                         "class": "editPropertyAsJsonErrorMessage"
                     });
                     dojo.place(this.error.messageNode, this.jsonTextarea.domNode, "after");
+                } else {
+                    this.error.messageNode.innerHTML = this.error.message;
                 }
 
                 dojo.style(this.error.messageNode, "top", this.error.positionOnPage.top + this.jsonTextarea.domNode.offsetTop + "px");

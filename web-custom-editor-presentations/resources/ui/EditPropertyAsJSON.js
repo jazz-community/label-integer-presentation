@@ -203,6 +203,7 @@ dojo.require("dijit.form.Textarea");
             return 0;
         },
 
+        // Original: https://github.com/component/textarea-caret-position/blob/master/index.js
         _getPositionInInput: function (inputElement, positionInValue) {
             var propertiesToCopy = [
                 'direction',

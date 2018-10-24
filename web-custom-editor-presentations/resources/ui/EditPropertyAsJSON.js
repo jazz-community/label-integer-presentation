@@ -127,8 +127,18 @@ dojo.require("dijit.form.Textarea");
             if (this.error !== null) {
                 // Handle the error
                 dojo.style(this.jsonTextarea.domNode, "border-color", "red");
-                var p = this._getPositionInInput(this.jsonTextarea.domNode, this.error.position);
-                console.log("position on page", p);
+
+                if (!this.error.messageNode) {
+                    this.error.messageNode = dojo.create("div", {
+                        innerHTML: this.error.message,
+                        "class": "editPropertyAsJsonErrorMessage"
+                    });
+                    dojo.place(this.error.messageNode, this.jsonTextarea.domNode, "after");
+                }
+
+                dojo.style(this.error.messageNode, "top", this.error.positionOnPage.top + this.jsonTextarea.domNode.offsetTop + "px");
+                dojo.style(this.error.messageNode, "left", this.error.positionOnPage.left + this.jsonTextarea.domNode.offsetLeft + "px");
+
             } else {
                 // Clear the error
                 dojo.style(this.jsonTextarea.domNode, "border-color", "");
@@ -142,6 +152,10 @@ dojo.require("dijit.form.Textarea");
                 formattedValue = this._formatValidJson(valueToFormat);
 
                 // Clear the error if it gets this far
+                if (this.error && this.error.messageNode) {
+                    dojo.destroy(this.error.messageNode);
+                }
+
                 this.error = null;
             } catch (error) {
                 formattedValue = this._formatInvalidJson(valueToFormat, error);
@@ -156,10 +170,14 @@ dojo.require("dijit.form.Textarea");
 
         _formatInvalidJson: function (stringToFormat, error) {
             var errorPosition = this._getPositionFromError(error);
-            this.error = {
-                message: error.message,
-                position: errorPosition
-            };
+
+            if (!this.error) {
+                this.error = {};
+            }
+
+            this.error.message = error.message;
+            this.error.positionInString = errorPosition;
+            this.error.positionOnPage = this._getPositionInInput(this.jsonTextarea.domNode, errorPosition);
 
             console.log("error: ", this.error);
 
@@ -184,54 +202,74 @@ dojo.require("dijit.form.Textarea");
         },
 
         _getPositionInInput: function (inputElement, positionInValue) {
-            var inputStyle = getComputedStyle(inputElement);
-            var inputCopy = dojo.create("div");
-            var inputValue = inputElement.tagName === "INPUT"
-                ? inputElement.value.replace(/ /g, ".")
-                : inputElement.value;
+            var properties = [
+                'direction',
+                'boxSizing',
+                'width',
+                'height',
+                'overflowX',
+                'overflowY',
+                'borderTopWidth',
+                'borderRightWidth',
+                'borderBottomWidth',
+                'borderLeftWidth',
+                'borderStyle',
+                'paddingTop',
+                'paddingRight',
+                'paddingBottom',
+                'paddingLeft',
+                'fontStyle',
+                'fontVariant',
+                'fontWeight',
+                'fontStretch',
+                'fontSize',
+                'fontSizeAdjust',
+                'lineHeight',
+                'fontFamily',
+                'textAlign',
+                'textTransform',
+                'textIndent',
+                'textDecoration',
+                'letterSpacing',
+                'wordSpacing',
+                'tabSize',
+                'MozTabSize'
+            ];
+            var div = document.createElement("div");
+            document.body.appendChild(div);
+            var computed = window.getComputedStyle(inputElement);
+            div.style.whiteSpace = "pre-wrap";
+            div.style.wordWrap = "break-word";
+            div.style.position = "absolute";
+            div.style.visibility = "hidden";
 
-            // console.log("inputStyle", inputStyle);
-            // for (var property in inputStyle) {
-            //     console.log("property", property);
-            //     inputCopy.style[property] = inputStyle[property];
-            //     console.log("inputCopy style", inputCopy.style[property]);
-            //     console.log("inputStyle style", inputStyle[property]);
-            // }
+            properties.forEach(function (prop) {
+                div.style[prop] = computed[prop];
+            });
 
-
-            // Array.from(inputStyle).forEach(function (key) {
-            //   return inputCopy.style.setProperty(key, inputStyle.getPropertyValue(key), inputStyle.getPropertyPriority(key));
-            // });
-
-            inputCopy.textContent = inputValue.slice(0, positionInValue);
-
-            if (inputElement.tagName === "TEXTAREA") {
-                dojo.style(inputElement, "height", "auto");
-            } else if (inputElement.tagName === "INPUT") {
-                dojo.style(inputElement, "width", "auto");
+            if (window.mozInnerScreenX != null) {
+                if (inputElement.scrollHeight > parseInt(computed.height, 10)) {
+                    div.style.overflowY = "scroll";
+                }
+            } else {
+                div.style.overflow = "hidden";
             }
 
-            var positionSpan = dojo.create("span", {
-                textContent: inputValue.slice(positionInValue)
-            }, inputCopy);
+            div.textContent = inputElement.value.substring(0, positionInValue);
 
-            dojo.place(inputCopy, document.body);
+            var span = document.createElement("span");
+            span.textContent = inputElement.value.substring(positionInValue) || ".";
+            div.appendChild(span);
 
-
-            Array.from(inputStyle).forEach(function (key) {
-                return inputCopy.style.setProperty(key, inputStyle.getPropertyValue(key), inputStyle.getPropertyPriority(key));
-              });
-
-
-            var spanX = positionSpan.offsetLeft;
-            var spanY = positionSpan.offsetTop;
-
-            //dojo.destroy(positionSpan);
-
-            return {
-                x: inputElement.offsetLeft + spanX,
-                y: inputElement.offsetTop + spanY
+            var coordinates = {
+                top: span.offsetTop + parseInt(computed["borderTopWidth"], 10),
+                left: span.offsetLeft + parseInt(computed["borderLeftWidth"], 10),
+                height: parseInt(computed["lineHeight"], 10)
             };
+
+            document.body.removeChild(div);
+
+            return coordinates;
         }
     });
 })();

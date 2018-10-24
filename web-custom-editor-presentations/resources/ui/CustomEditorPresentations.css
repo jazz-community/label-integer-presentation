@@ -8,6 +8,7 @@
 
 .editPropertyAsJsonDialogContent
 .editPropertyAsJsonContainer {
+    position: relative;
     flex: 0 1 auto;
     border: 1px solid lightgray;
     padding: 5px;
@@ -36,6 +37,21 @@
     background-color: #20262e;
     color: white;
     font-family: monospace;
+    line-height: 1.2;
+}
+
+.editPropertyAsJsonDialogContent
+.editPropertyAsJsonContainer
+.editPropertyAsJsonErrorMessage {
+    position: absolute;
+    display: block;
+    font-size: 12px;
+    padding: 4px 6px;
+    background-color: #EEE;
+    box-shadow: 0 2px 5px lightgrey;
+    border-radius: 4px;
+    transform: translate(5%, -70%);
+    transition: top 0.1s ease 0s, left 0.1s ease 0s;
 }
 
 .editPropertyAsJsonDialogContent

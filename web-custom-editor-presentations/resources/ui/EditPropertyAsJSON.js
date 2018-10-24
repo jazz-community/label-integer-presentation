@@ -75,7 +75,6 @@ dojo.require("dijit.form.Textarea");
 
         _createValuePresentation: function () {
             this.jsonTextarea = new Textarea({
-                value: this.property.value,
                 "class": "editPropertyAsJsonValueContainer",
                 "autocomplete": "off",
                 "autocorrect": "off",
@@ -84,6 +83,7 @@ dojo.require("dijit.form.Textarea");
                 "data-gramm": "false"
             });
             this.jsonTextarea.startup();
+            this._setFormattedValue(this.property.value);
 
             return this.jsonTextarea.domNode;
         },
@@ -118,6 +118,40 @@ dojo.require("dijit.form.Textarea");
 
         _onCancelClick: function () {
             alert("cancel");
+        },
+
+        _setFormattedValue: function (valueToFormat) {
+            try {
+                this._setValidJsonValue(valueToFormat);
+            } catch (error) {
+                this._setInvalidJsonValue(valueToFormat, error);
+            }
+        },
+
+        _setValidJsonValue: function (jsonString) {
+            this.jsonTextarea.set("value", JSON.stringify(JSON.parse(jsonString), null, 2))
+        },
+
+        _setInvalidJsonValue: function (stringToFormat, error) {
+            console.log("position of error: ", this._getPositionFromError(error));
+            this.jsonTextarea.set("value", stringToFormat);
+        },
+
+        _getPositionFromError: function (parseError) {
+            var searchText = "in JSON at position ";
+            var message = parseError.message;
+            var indexOfSearchText = message.indexOf(searchText);
+
+            if (indexOfSearchText > 0) {
+                var stringPosition = message.slice(indexOfSearchText + searchText.length, message.length);
+                var intPosition = parseInt(stringPosition);
+
+                return isNaN(intPosition)
+                    ? 0
+                    : intPosition;
+            }
+
+            return 0;
         }
     });
 })();

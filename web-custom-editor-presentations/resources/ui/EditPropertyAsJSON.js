@@ -127,6 +127,8 @@ dojo.require("dijit.form.Textarea");
             if (this.error !== null) {
                 // Handle the error
                 dojo.style(this.jsonTextarea.domNode, "border-color", "red");
+                var p = this._getPositionInInput(this.jsonTextarea.domNode, this.error.position);
+                console.log("position on page", p);
             } else {
                 // Clear the error
                 dojo.style(this.jsonTextarea.domNode, "border-color", "");
@@ -171,7 +173,7 @@ dojo.require("dijit.form.Textarea");
 
             if (indexOfSearchText > 0) {
                 var stringPosition = message.slice(indexOfSearchText + searchText.length, message.length);
-                var intPosition = parseInt(stringPosition);
+                var intPosition = parseInt(stringPosition, 10);
 
                 return isNaN(intPosition)
                     ? 0
@@ -179,6 +181,57 @@ dojo.require("dijit.form.Textarea");
             }
 
             return 0;
+        },
+
+        _getPositionInInput: function (inputElement, positionInValue) {
+            var inputStyle = getComputedStyle(inputElement);
+            var inputCopy = dojo.create("div");
+            var inputValue = inputElement.tagName === "INPUT"
+                ? inputElement.value.replace(/ /g, ".")
+                : inputElement.value;
+
+            // console.log("inputStyle", inputStyle);
+            // for (var property in inputStyle) {
+            //     console.log("property", property);
+            //     inputCopy.style[property] = inputStyle[property];
+            //     console.log("inputCopy style", inputCopy.style[property]);
+            //     console.log("inputStyle style", inputStyle[property]);
+            // }
+
+
+            // Array.from(inputStyle).forEach(function (key) {
+            //   return inputCopy.style.setProperty(key, inputStyle.getPropertyValue(key), inputStyle.getPropertyPriority(key));
+            // });
+
+            inputCopy.textContent = inputValue.slice(0, positionInValue);
+
+            if (inputElement.tagName === "TEXTAREA") {
+                dojo.style(inputElement, "height", "auto");
+            } else if (inputElement.tagName === "INPUT") {
+                dojo.style(inputElement, "width", "auto");
+            }
+
+            var positionSpan = dojo.create("span", {
+                textContent: inputValue.slice(positionInValue)
+            }, inputCopy);
+
+            dojo.place(inputCopy, document.body);
+
+
+            Array.from(inputStyle).forEach(function (key) {
+                return inputCopy.style.setProperty(key, inputStyle.getPropertyValue(key), inputStyle.getPropertyPriority(key));
+              });
+
+
+            var spanX = positionSpan.offsetLeft;
+            var spanY = positionSpan.offsetTop;
+
+            //dojo.destroy(positionSpan);
+
+            return {
+                x: inputElement.offsetLeft + spanX,
+                y: inputElement.offsetTop + spanY
+            };
         }
     });
 })();

@@ -13,6 +13,7 @@ dojo.require("dijit.form.Textarea");
         property: null,
         dialog: null,
         jsonTextarea: null,
+        error: null,
 
         constructor: function (parameters) {
             this.presentationProperties = parameters.presentationProperties;
@@ -122,6 +123,14 @@ dojo.require("dijit.form.Textarea");
 
         _setTextareaValue: function (valueToSet) {
             this.jsonTextarea.set("value", this._getFormattedValue(valueToSet));
+
+            if (this.error !== null) {
+                // Handle the error
+                dojo.style(this.jsonTextarea.domNode, "border-color", "red");
+            } else {
+                // Clear the error
+                dojo.style(this.jsonTextarea.domNode, "border-color", "");
+            }
         },
 
         _getFormattedValue: function (valueToFormat) {
@@ -129,6 +138,9 @@ dojo.require("dijit.form.Textarea");
 
             try {
                 formattedValue = this._formatValidJson(valueToFormat);
+
+                // Clear the error if it gets this far
+                this.error = null;
             } catch (error) {
                 formattedValue = this._formatInvalidJson(valueToFormat, error);
             }
@@ -141,7 +153,13 @@ dojo.require("dijit.form.Textarea");
         },
 
         _formatInvalidJson: function (stringToFormat, error) {
-            console.log("position of error: ", this._getPositionFromError(error));
+            var errorPosition = this._getPositionFromError(error);
+            this.error = {
+                message: error.message,
+                position: errorPosition
+            };
+
+            console.log("error: ", this.error);
 
             return stringToFormat;
         },

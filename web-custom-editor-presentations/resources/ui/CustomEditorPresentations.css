@@ -1,4 +1,6 @@
 .editPropertyAsJsonDialogContent {
+    display: flex;
+    flex-direction: column;
     height: 80vh;
     width: 80vw;
     padding: 5px;
@@ -6,6 +8,7 @@
 
 .editPropertyAsJsonDialogContent
 .editPropertyAsJsonContainer {
+    flex: 0 1 auto;
     border: 1px solid lightgray;
     padding: 5px;
     margin-bottom: 10px;
@@ -32,4 +35,17 @@
     background-color: #20262e;
     color: white;
     font-family: monospace;
+}
+
+.editPropertyAsJsonDialogContent
+.editPropertyAsJsonContainer
+.editPropertyAsJsonButton {
+    float: left;
+    margin: 5px;
+}
+
+.editPropertyAsJsonDialogContent
+.editPropertyAsJsonContainer
+.editPropertyAsJsonButton.editPropertyAsJsonButtonRight {
+    float: right;
 }

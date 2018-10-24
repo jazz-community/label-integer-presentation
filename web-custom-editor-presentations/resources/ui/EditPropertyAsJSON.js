@@ -53,7 +53,9 @@ dojo.require("dijit.form.Textarea");
             this._addLabelWithValue(dialogContent, "Property key: ", dojo.create("span", {
                 innerHTML: this.property.key
             }));
-            this._addLabelWithValue(dialogContent, "Property value: ", this._createValuePresentation());
+            var valueContainer = this._addLabelWithValue(dialogContent, "Property value: ", this._createValuePresentation());
+            dojo.style(valueContainer, "flex-grow", "1");
+            this._addButtons(dialogContent);
 
             return dialogContent;
         },
@@ -67,6 +69,8 @@ dojo.require("dijit.form.Textarea");
                 "class": "editPropertyAsJsonLabel"
             }, valueContainer);
             dojo.place(valueNode, valueContainer);
+
+            return valueContainer;
         },
 
         _createValuePresentation: function () {
@@ -82,6 +86,38 @@ dojo.require("dijit.form.Textarea");
             this.jsonTextarea.startup();
 
             return this.jsonTextarea.domNode;
+        },
+
+        _addButtons: function (dialogContent) {
+            var buttonsContainer = dojo.create("div", {
+                "class": "editPropertyAsJsonContainer"
+            }, dialogContent);
+
+            dojo.place(this._createButton("Verify JSON", "editPropertyAsJsonButton", this._onVerifyClick), buttonsContainer);
+            dojo.place(this._createButton("Cancel", "editPropertyAsJsonButton editPropertyAsJsonButtonRight", this._onCancelClick), buttonsContainer);
+            dojo.place(this._createButton("OK", "editPropertyAsJsonButton editPropertyAsJsonButtonRight", this._onOkClick), buttonsContainer);
+
+            return buttonsContainer;
+        },
+
+        _createButton: function (text, cssClass, onClick) {
+            return dojo.create("button", {
+                innerHTML: text,
+                "class": cssClass,
+                onclick: onClick
+            });
+        },
+
+        _onVerifyClick: function () {
+            alert("verify");
+        },
+
+        _onOkClick: function () {
+            alert("ok");
+        },
+
+        _onCancelClick: function () {
+            alert("cancel");
         }
     });
 })();

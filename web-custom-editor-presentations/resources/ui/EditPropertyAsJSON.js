@@ -204,7 +204,7 @@ dojo.require("dijit.form.Textarea");
         },
 
         _getPositionInInput: function (inputElement, positionInValue) {
-            var properties = [
+            var propertiesToCopy = [
                 'direction',
                 'boxSizing',
                 'width',
@@ -237,15 +237,15 @@ dojo.require("dijit.form.Textarea");
                 'tabSize',
                 'MozTabSize'
             ];
+            var computed = window.getComputedStyle(inputElement);
             var div = document.createElement("div");
             document.body.appendChild(div);
-            var computed = window.getComputedStyle(inputElement);
             div.style.whiteSpace = "pre-wrap";
             div.style.wordWrap = "break-word";
             div.style.position = "absolute";
             div.style.visibility = "hidden";
 
-            properties.forEach(function (prop) {
+            dojo.forEach(propertiesToCopy, function (prop) {
                 div.style[prop] = computed[prop];
             });
 

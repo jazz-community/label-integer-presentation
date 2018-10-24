@@ -109,7 +109,7 @@ dojo.require("dijit.form.Textarea");
         },
 
         _onVerifyClick: function () {
-            alert("verify");
+            this._setFormattedValue(this.jsonTextarea.get("value"));
         },
 
         _onOkClick: function () {

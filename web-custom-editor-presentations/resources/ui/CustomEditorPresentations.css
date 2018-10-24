@@ -23,11 +23,8 @@
     min-height: 200px;
     width: calc(100% - 20px);
     margin: 10px;
-    padding: 15px;
     border: 5px solid green!important;
     background-color: #20262e!important;
     color: white!important;
     font-family: monospace;
-    overflow: auto;
-    resize: none;
 }

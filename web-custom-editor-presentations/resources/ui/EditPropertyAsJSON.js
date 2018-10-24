@@ -75,6 +75,7 @@ dojo.require("dijit.form.Textarea");
 
         _createValuePresentation: function () {
             this.jsonTextarea = new Textarea({
+                value: this._getFormattedValue(this.property.value),
                 "class": "editPropertyAsJsonValueContainer",
                 "autocomplete": "off",
                 "autocorrect": "off",
@@ -83,7 +84,6 @@ dojo.require("dijit.form.Textarea");
                 "data-gramm": "false"
             });
             this.jsonTextarea.startup();
-            this._setFormattedValue(this.property.value);
 
             return this.jsonTextarea.domNode;
         },
@@ -109,7 +109,7 @@ dojo.require("dijit.form.Textarea");
         },
 
         _onVerifyClick: function () {
-            this._setFormattedValue(this.jsonTextarea.get("value"));
+            this.jsonTextarea.set("value", this._getFormattedValue(this.jsonTextarea.get("value")));
         },
 
         _onOkClick: function () {
@@ -120,21 +120,26 @@ dojo.require("dijit.form.Textarea");
             this.dialog.hide();
         },
 
-        _setFormattedValue: function (valueToFormat) {
+        _getFormattedValue: function (valueToFormat) {
+            var formattedValue = "";
+
             try {
-                this._setValidJsonValue(valueToFormat);
+                formattedValue = this._formatValidJson(valueToFormat);
             } catch (error) {
-                this._setInvalidJsonValue(valueToFormat, error);
+                formattedValue = this._formatInvalidJson(valueToFormat, error);
             }
+
+            return formattedValue;
         },
 
-        _setValidJsonValue: function (jsonString) {
-            this.jsonTextarea.set("value", JSON.stringify(JSON.parse(jsonString), null, 2))
+        _formatValidJson: function (jsonString) {
+            return JSON.stringify(JSON.parse(jsonString), null, 2);
         },
 
-        _setInvalidJsonValue: function (stringToFormat, error) {
+        _formatInvalidJson: function (stringToFormat, error) {
             console.log("position of error: ", this._getPositionFromError(error));
-            this.jsonTextarea.set("value", stringToFormat);
+
+            return stringToFormat;
         },
 
         _getPositionFromError: function (parseError) {

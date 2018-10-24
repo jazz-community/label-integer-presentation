@@ -93,9 +93,9 @@ dojo.require("dijit.form.Textarea");
                 "class": "editPropertyAsJsonContainer"
             }, dialogContent);
 
-            dojo.place(this._createButton("Verify JSON", "editPropertyAsJsonButton", this._onVerifyClick), buttonsContainer);
-            dojo.place(this._createButton("Cancel", "editPropertyAsJsonButton editPropertyAsJsonButtonRight", this._onCancelClick), buttonsContainer);
-            dojo.place(this._createButton("OK", "editPropertyAsJsonButton editPropertyAsJsonButtonRight", this._onOkClick), buttonsContainer);
+            dojo.place(this._createButton("Verify JSON", "editPropertyAsJsonButton", dojo.hitch(this, this._onVerifyClick)), buttonsContainer);
+            dojo.place(this._createButton("Cancel", "editPropertyAsJsonButton editPropertyAsJsonButtonRight", dojo.hitch(this, this._onCancelClick)), buttonsContainer);
+            dojo.place(this._createButton("OK", "editPropertyAsJsonButton editPropertyAsJsonButtonRight", dojo.hitch(this, this._onOkClick)), buttonsContainer);
 
             return buttonsContainer;
         },
@@ -113,11 +113,11 @@ dojo.require("dijit.form.Textarea");
         },
 
         _onOkClick: function () {
-            alert("ok");
+            this.dialog.hide();
         },
 
         _onCancelClick: function () {
-            alert("cancel");
+            this.dialog.hide();
         },
 
         _setFormattedValue: function (valueToFormat) {

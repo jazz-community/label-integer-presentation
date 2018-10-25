@@ -1,3 +1,4 @@
+/* Size the dialog and wrap the contents */
 .editPropertyAsJsonDialogContent {
     display: flex;
     flex-direction: column;
@@ -6,6 +7,7 @@
     padding: 5px;
 }
 
+/* Wrap a label/value with a border */
 .editPropertyAsJsonDialogContent
 .editPropertyAsJsonContainer {
     position: relative;
@@ -15,6 +17,7 @@
     margin-bottom: 10px;
 }
 
+/* Style a label */
 .editPropertyAsJsonDialogContent
 .editPropertyAsJsonContainer
 .editPropertyAsJsonLabel {
@@ -23,6 +26,7 @@
     color: #666;
 }
 
+/* Style the textarea */
 .editPropertyAsJsonDialogContent
 .editPropertyAsJsonContainer
 .editPropertyAsJsonValueContainer {
@@ -40,6 +44,7 @@
     line-height: 1.2;
 }
 
+/* Style the error message and position to the top right of the original position */
 .editPropertyAsJsonDialogContent
 .editPropertyAsJsonContainer
 .editPropertyAsJsonErrorMessage {
@@ -55,6 +60,7 @@
     transition: top 0.1s ease 0s, left 0.1s ease 0s;
 }
 
+/* Add an arrow pointing out of the bottom left of the error div */
 .editPropertyAsJsonDialogContent
 .editPropertyAsJsonContainer
 .editPropertyAsJsonErrorMessage:after {
@@ -69,6 +75,7 @@
     transform: translate(-10%, 10%) rotate(-15deg) skewX(-40deg);
 }
 
+/* Style the close error icon */
 .editPropertyAsJsonDialogContent
 .editPropertyAsJsonContainer
 .editPropertyAsJsonErrorMessage
@@ -80,6 +87,7 @@
     cursor: pointer;
 }
 
+/* Remove opacity from the icon on hover */
 .editPropertyAsJsonDialogContent
 .editPropertyAsJsonContainer
 .editPropertyAsJsonErrorMessage
@@ -87,6 +95,7 @@
     opacity: 1;
 }
 
+/* Use before and after to create visible lines */
 .editPropertyAsJsonDialogContent
 .editPropertyAsJsonContainer
 .editPropertyAsJsonErrorMessage
@@ -103,6 +112,7 @@
     background-color: #333;
 }
 
+/* Rotate the before line to be half of an X */
 .editPropertyAsJsonDialogContent
 .editPropertyAsJsonContainer
 .editPropertyAsJsonErrorMessage
@@ -110,6 +120,7 @@
     transform: rotate(45deg);
 }
 
+/* Rotate the after line to be half o an X */
 .editPropertyAsJsonDialogContent
 .editPropertyAsJsonContainer
 .editPropertyAsJsonErrorMessage
@@ -117,6 +128,7 @@
     transform: rotate(-45deg);
 }
 
+/* Style for all buttons */
 .editPropertyAsJsonDialogContent
 .editPropertyAsJsonContainer
 .editPropertyAsJsonButton {
@@ -124,6 +136,7 @@
     margin: 5px;
 }
 
+/* Move some buttons to the right */
 .editPropertyAsJsonDialogContent
 .editPropertyAsJsonContainer
 .editPropertyAsJsonButton.editPropertyAsJsonButtonRight {

@@ -186,7 +186,7 @@ dojo.require("dijit.form.Textarea");
 
             this.error.message = error.message;
             this.error.positionInString = errorPosition;
-            this.error.positionOnPage = this._getPositionInInput(this.jsonTextarea.domNode, errorPosition);
+            this.error.positionInInput = this._getPositionInInput(this.jsonTextarea.domNode, errorPosition);
 
             console.log("error: ", this.error);
 
@@ -220,8 +220,8 @@ dojo.require("dijit.form.Textarea");
         },
 
         _setErrorPosition: function () {
-            var top = this._getCoordinateInElement(this.error.positionOnPage.top, this.jsonTextarea.domNode, "Top", "Height");
-            var left = this._getCoordinateInElement(this.error.positionOnPage.left, this.jsonTextarea.domNode, "Left", "Width");
+            var top = this._getCoordinateInElement(this.error.positionInInput.top, this.jsonTextarea.domNode, "Top", "Height");
+            var left = this._getCoordinateInElement(this.error.positionInInput.left, this.jsonTextarea.domNode, "Left", "Width");
 
             dojo.style(this.error.messageNode, "top", top + "px");
             dojo.style(this.error.messageNode, "left", left + "px");

@@ -81,6 +81,7 @@ dojo.require("dijit.form.Textarea");
         _createValuePresentation: function () {
             this.jsonTextarea = new Textarea({
                 value: this.property.value,
+                intermediateChanges: true,
                 "class": "editPropertyAsJsonValueContainer",
                 "autocomplete": "off",
                 "autocorrect": "off",
@@ -89,6 +90,8 @@ dojo.require("dijit.form.Textarea");
                 "data-gramm": "false"
             });
             this.jsonTextarea.startup();
+
+            dojo.connect(this.jsonTextarea, "onChange", dojo.hitch(this, this._onChangeEvent));
 
             return this.jsonTextarea.domNode;
         },
@@ -123,6 +126,10 @@ dojo.require("dijit.form.Textarea");
 
         _onCancelClick: function () {
             this.dialog.hide();
+        },
+
+        _onChangeEvent: function (newValue) {
+            this._clearErrorMessage();
         },
 
         _setTextareaValue: function (valueToSet) {

@@ -129,7 +129,17 @@ dojo.require("dijit.form.Textarea");
         },
 
         _onChangeEvent: function (newValue) {
+            var isValidJson = true;
+
             this._clearErrorMessage();
+
+            try {
+                JSON.parse(newValue);
+            } catch (error) {
+                isValidJson = false;
+            }
+
+            this._setErrorStatus(!isValidJson);
         },
 
         _setTextareaValue: function (valueToSet) {

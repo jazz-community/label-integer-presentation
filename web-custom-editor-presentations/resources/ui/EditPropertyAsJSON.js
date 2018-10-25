@@ -127,25 +127,6 @@ dojo.require("dijit.form.Textarea");
 
         _setTextareaValue: function (valueToSet) {
             this.jsonTextarea.set("value", this._getFormattedValue(valueToSet));
-
-            if (this.error !== null) {
-                // Handle the error
-                dojo.style(this.jsonTextarea.domNode, "border-color", "red");
-
-                if (!this.error.messageNode) {
-                    this.error.messageNode = dojo.create("div", {
-                        innerHTML: this.error.message,
-                        "class": "editPropertyAsJsonErrorMessage"
-                    });
-                    dojo.place(this.error.messageNode, this.jsonTextarea.domNode, "after");
-                } else {
-                    this.error.messageNode.innerHTML = this.error.message;
-                }
-
-                dojo.style(this.error.messageNode, "top", this.error.positionOnPage.top + this.jsonTextarea.domNode.offsetTop + "px");
-                dojo.style(this.error.messageNode, "left", this.error.positionOnPage.left + this.jsonTextarea.domNode.offsetLeft + "px");
-
-            }
         },
 
         _getFormattedValue: function (valueToFormat) {
@@ -186,30 +167,51 @@ dojo.require("dijit.form.Textarea");
             console.log("error: ", this.error);
 
             // Handle the error
-            dojo.style(this.jsonTextarea.domNode, "border-color", "red");
+            this._setErrorStatus(true);
+            this._setErrorMessage();
+        },
 
+        _setErrorStatus: function (hasError) {
+            dojo.style(this.jsonTextarea.domNode, "border-color", hasError ? "red" : "");
+        },
+
+        _setErrorMessage: function () {
             if (!this.error.messageNode) {
                 this.error.messageNode = dojo.create("div", {
                     innerHTML: this.error.message,
                     "class": "editPropertyAsJsonErrorMessage"
-                });
-                dojo.place(this.error.messageNode, this.jsonTextarea.domNode, "after");
+                }, this.jsonTextarea.domNode, "after");
             } else {
                 this.error.messageNode.innerHTML = this.error.message;
             }
 
+            dojo.create("span", {
+                "class": "editPropertyAsJsonCloseIcon",
+                onclick: dojo.hitch(this, function () {
+                    this._clearErrorMessage();
+                })
+            }, this.error.messageNode);
+
+            this._setErrorPosition();
+        },
+
+        _setErrorPosition: function () {
             dojo.style(this.error.messageNode, "top", this.error.positionOnPage.top + this.jsonTextarea.domNode.offsetTop + "px");
             dojo.style(this.error.messageNode, "left", this.error.positionOnPage.left + this.jsonTextarea.domNode.offsetLeft + "px");
         },
 
         _clearError: function () {
+            this._clearErrorMessage();
+            this._setErrorStatus(false);
+            this.error = null;
+        },
+
+        _clearErrorMessage: function () {
             if (this.error && this.error.messageNode) {
                 dojo.destroy(this.error.messageNode);
             }
 
-            this.error = null;
-
-            dojo.style(this.jsonTextarea.domNode, "border-color", "");
+            this.error.messageNode = null;
         },
 
         _getPositionFromError: function (parseError) {

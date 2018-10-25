@@ -92,6 +92,7 @@ dojo.require("dijit.form.Textarea");
             this.jsonTextarea.startup();
 
             dojo.connect(this.jsonTextarea, "onChange", dojo.hitch(this, this._onChangeEvent));
+            dojo.connect(this.jsonTextarea.domNode, "onscroll", dojo.hitch(this, this._onScrollEvent));
 
             return this.jsonTextarea.domNode;
         },
@@ -140,6 +141,12 @@ dojo.require("dijit.form.Textarea");
             }
 
             this._setErrorStatus(!isValidJson);
+        },
+
+        _onScrollEvent: function (event) {
+            if (this.error && this.error.messageNode) {
+                this._setErrorPosition();
+            }
         },
 
         _setTextareaValue: function (valueToSet) {
@@ -213,8 +220,28 @@ dojo.require("dijit.form.Textarea");
         },
 
         _setErrorPosition: function () {
-            dojo.style(this.error.messageNode, "top", this.error.positionOnPage.top + this.jsonTextarea.domNode.offsetTop + "px");
-            dojo.style(this.error.messageNode, "left", this.error.positionOnPage.left + this.jsonTextarea.domNode.offsetLeft + "px");
+            var top = this._getCoordinateInElement(this.error.positionOnPage.top, this.jsonTextarea.domNode, "Top", "Height");
+            var left = this._getCoordinateInElement(this.error.positionOnPage.left, this.jsonTextarea.domNode, "Left", "Width");
+
+            dojo.style(this.error.messageNode, "top", top + "px");
+            dojo.style(this.error.messageNode, "left", left + "px");
+        },
+
+        // side = "Top" | "Left"
+        // dimension = "Height" | "Width"
+        _getCoordinateInElement: function (positionInElement, element, side, dimension) {
+            var finalPosition = positionInElement;
+            var elementOffset = element["offset" + side]
+            var elementScroll = element["scroll" + side];
+            var elementDimensionOffset = element["offset" + dimension];
+
+            finalPosition += elementOffset;
+            finalPosition -= elementScroll;
+
+            finalPosition = Math.max(finalPosition, elementOffset);
+            finalPosition = Math.min(finalPosition, elementOffset + elementDimensionOffset)
+
+            return finalPosition;
         },
 
         _clearError: function () {

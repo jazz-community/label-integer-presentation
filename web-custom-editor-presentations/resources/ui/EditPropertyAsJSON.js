@@ -216,9 +216,8 @@ dojo.require("dijit.form.Textarea");
         _clearErrorMessage: function () {
             if (this.error && this.error.messageNode) {
                 dojo.destroy(this.error.messageNode);
+                this.error.messageNode = null;
             }
-
-            this.error.messageNode = null;
         },
 
         _getPositionFromError: function (parseError) {

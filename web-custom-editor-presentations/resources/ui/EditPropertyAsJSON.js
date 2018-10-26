@@ -17,7 +17,7 @@ dojo.require("dijit.form.Textarea");
         dialog: null,
         jsonTextarea: null,
         error: null,
-        validationResultNode: null,
+        validation: null,
 
         // Initialize properties and create the dialog
         constructor: function (parameters) {
@@ -138,17 +138,27 @@ dojo.require("dijit.form.Textarea");
                 "class": "editPropertyAsJsonContainer"
             }, dialogContent);
 
-            // Create the buttons with event handlers and place them
-            var validateButton = this._createButton("Validate JSON", "editPropertyAsJsonButton", dojo.hitch(this, this._onValidateClick));
-            dojo.attr(validateButton, "title", "Validate and format the JSON");
-            dojo.place(validateButton, buttonsContainer);
+            // Initialize the validation object for storing references to the buttons
+            // and the validation message node
+            this.validation = {};
 
-            this.validationResultNode = dojo.create("div", {
+            // Create and place the validate button
+            this.validation.validateButton = this._createButton("Validate JSON", "editPropertyAsJsonButton", dojo.hitch(this, this._onValidateClick));
+            dojo.attr(this.validation.validateButton, "title", "Validate and format the JSON");
+            dojo.place(this.validation.validateButton, buttonsContainer);
+
+            // Add the validation message div left of the validate button
+            this.validation.resultNode = dojo.create("div", {
                 "class": "editPropertyAsJsonButton editPropertyAsJsonValidationMessage"
             }, buttonsContainer);
 
-            dojo.place(this._createButton("Cancel", "editPropertyAsJsonButton editPropertyAsJsonButtonRight", dojo.hitch(this, this._onCancelClick)), buttonsContainer);
-            dojo.place(this._createButton("OK", "editPropertyAsJsonButton editPropertyAsJsonButtonRight", dojo.hitch(this, this._onOkClick)), buttonsContainer);
+            // Create and place the cancel button
+            this.validation.cancelButton = this._createButton("Cancel", "editPropertyAsJsonButton editPropertyAsJsonButtonRight", dojo.hitch(this, this._onCancelClick));
+            dojo.place(this.validation.cancelButton, buttonsContainer);
+
+            // Create and place the ok button
+            this.validation.okButton = this._createButton("OK", "editPropertyAsJsonButton editPropertyAsJsonButtonRight", dojo.hitch(this, this._onOkClick));
+            dojo.place(this.validation.okButton, buttonsContainer);
 
             // Return the container div for further use
             return buttonsContainer;
@@ -305,13 +315,25 @@ dojo.require("dijit.form.Textarea");
         // Change the textarea border to red if there is an error.
         // Reset to the original color (green) if there is none
         _setErrorStatus: function (hasError) {
+            // Set the color red if there is an error
             var color = hasError ? "red" : "";
-            dojo.style(this.jsonTextarea.domNode, "border-color", color);
-            dojo.style(this.validationResultNode, "color", color);
 
-            this.validationResultNode.innerHTML = hasError
-                ? "The JSON is invalid"
-                : "The JSON is valid";
+            // Set the color on the textarea border
+            dojo.style(this.jsonTextarea.domNode, "border-color", color);
+
+            // Make sure that the validation object was initialized
+            if (this.validation) {
+                // Set the color on the validation message text
+                dojo.style(this.validation.resultNode, "color", color);
+
+                // Set the validation message text
+                this.validation.resultNode.innerHTML = hasError
+                    ? "The JSON is invalid"
+                    : "The JSON is valid";
+
+                // Enable/disable the ok button based on the error status
+                this.validation.okButton.disabled = hasError;
+            }
         },
 
         // Set the error message in the popup and position it

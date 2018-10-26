@@ -328,7 +328,7 @@ dojo.require("dijit.form.Textarea");
 
                 // Set the validation message text
                 this.validation.resultNode.innerHTML = hasError
-                    ? "The JSON is invalid"
+                    ? "The JSON is invalid (only valid JSON can be saved using this editor)"
                     : "The JSON is valid";
 
                 // Enable/disable the ok button based on the error status

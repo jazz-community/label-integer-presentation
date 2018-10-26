@@ -2,10 +2,10 @@
     View the source file on GitHub: https://github.com/douglascrockford/JSON-js/blob/master/json_parse.js
 */
 
-dojo.provide("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.library.JsonParse");
+dojo.provide("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.library.JsonParse");
 
 (function () {
-    dojo.declare("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.library.JsonParse", null,
+    dojo.declare("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.library.JsonParse", null,
     {
         // Empty. Don't instantiate.
     });
@@ -66,7 +66,7 @@ dojo.provide("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresen
     prototype, push, r, t, text
 */
 
-com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.library.JsonParse.json_parse = (function () {
+com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.library.JsonParse.json_parse = (function () {
     "use strict";
 
 // This is a function that can parse a JSON text, producing a JavaScript

@@ -24,7 +24,6 @@ dojo.require("dijit.form.Textarea");
 
             // Create the dialog right away
             this.dialog = this.createDialog();
-            console.log("json_parse", { json_parse: json_parse });
         },
 
         // Open the dialog and set the value
@@ -183,7 +182,7 @@ dojo.require("dijit.form.Textarea");
             // Check if parsing the value causes an exception
             try {
                 // Just parse, we don't need the result
-                JSON.parse(newValue);
+                json_parse(newValue);
             } catch (error) {
                 // Consider the JSON invalid if there was an exception when parsing
                 isValidJson = false;
@@ -234,7 +233,7 @@ dojo.require("dijit.form.Textarea");
         // Format a string as JSON. Assumes the JSON is valid; throws an exception otherwise
         _formatValidJson: function (jsonString) {
             // Parse the string to create a JavaScript object and stringify with pretty print
-            return JSON.stringify(JSON.parse(jsonString), null, 2);
+            return JSON.stringify(json_parse(jsonString), null, 2);
         },
 
         // Format a string of invalid JSON as JSON
@@ -267,8 +266,6 @@ dojo.require("dijit.form.Textarea");
 
             // Set the position relative to the textarea for positioning the error popup
             this.error.positionInInput = this._getPositionInInput(this.jsonTextarea.domNode, errorPosition);
-
-            console.log("error: ", this.error); // Remove this sometime...
 
             // Set the error status in the textarea border color
             this._setErrorStatus(true);
@@ -392,34 +389,9 @@ dojo.require("dijit.form.Textarea");
         // Get the position of the error in the original string using
         // the parse exception object
         _getPositionFromError: function (parseError) {
-            // The text to look for in the parse exception message.
-            // This specific text only works for Chrome and this whole
-            // method should be changed when the parse error contains the
-            // error position.
-            var searchText = "in JSON at position ";
-
-            // Get the parse error message
-            var message = parseError.message;
-
-            // Look for the search text in the error message
-            var indexOfSearchText = message.indexOf(searchText);
-
-            // Check if the text was found in the message
-            if (indexOfSearchText > 0) {
-                // Take the position from the error message
-                var stringPosition = message.slice(indexOfSearchText + searchText.length, message.length);
-
-                // Convert the position to an integer
-                var intPosition = parseInt(stringPosition, 10);
-
-                // Return the position or zero if it wasn't a number
-                return isNaN(intPosition)
-                    ? 0
-                    : intPosition;
-            }
-
-            // Return zero if the message wasn't found (happens for all browsers other than Chrome)
-            return 0;
+            // The parse exception thrown by the custom JSON parser contains the position
+            // of the error in the "at" property
+            return parseError.at;
         },
 
         // Get the position of a location in the value of a textarea relative to the

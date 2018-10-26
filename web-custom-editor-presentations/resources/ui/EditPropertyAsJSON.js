@@ -287,7 +287,14 @@ dojo.require("dijit.form.Textarea");
                 // Create a new one if it doesn't
                 this.error.messageNode = dojo.create("div", {
                     innerHTML: this.error.message,
-                    "class": "editPropertyAsJsonErrorMessage"
+                    "class": "editPropertyAsJsonErrorMessage",
+                    onclick: dojo.hitch(this, function () {
+                        // Set the caret to the error position when the error
+                        // message is clicked. This will also scroll to the
+                        // error if it's not in the view
+                        this.jsonTextarea.domNode.focus();
+                        this.jsonTextarea.domNode.setSelectionRange(this.error.positionInString, this.error.positionInString);
+                    })
                 }, this.jsonTextarea.domNode, "after");
             } else {
                 // Reuse the node with the new error text if it does

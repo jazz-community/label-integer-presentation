@@ -257,8 +257,8 @@ dojo.require("dijit.form.Textarea");
                 // Clear the error if it gets this far
                 this._clearError();
             } catch (error) {
-                // There was an error parsing the JSON so try to format with a different method
-                formattedValue = this._formatInvalidJson(valueToFormat);
+                // There was an error parsing the JSON so don't format
+                formattedValue = valueToFormat;
 
                 // Set the error in the view
                 this._setError(error);
@@ -272,16 +272,6 @@ dojo.require("dijit.form.Textarea");
         _formatValidJson: function (jsonString) {
             // Parse the string to create a JavaScript object and stringify with pretty print
             return JSON.stringify(json_parse(jsonString), null, 2);
-        },
-
-        // Format a string of invalid JSON as JSON
-        _formatInvalidJson: function (stringToFormat) {
-            // Just return the same as the input for now.
-            // This should use a custom function to format if the
-            // value has never been formatted yet (error in initial JSON).
-            // Otherwise the string has already been formatted and still
-            // is readable even with the error
-            return stringToFormat;
         },
 
         // Set the error from a JSON parse exception

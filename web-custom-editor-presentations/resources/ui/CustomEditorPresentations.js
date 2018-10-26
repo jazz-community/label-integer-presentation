@@ -246,6 +246,7 @@ dojo.require("com.ibm.team.workitem.web.process.ui.internal.view.presentation.di
                     title: "Edit as JSON",
                     onClick: function () {
                         var editPropertyAsJSON = new EditPropertyAsJSON({
+                            propertiesTable: self,
                             presentationProperties: self.presentationProperties,
                             property: property
                         });

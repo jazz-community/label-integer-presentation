@@ -11,6 +11,7 @@ dojo.require("dijit.form.Textarea");
 
     dojo.declare("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.EditPropertyAsJSON", null,
     {
+        propertiesTable: null,
         presentationProperties: null,
         property: null,
         dialog: null,
@@ -20,6 +21,7 @@ dojo.require("dijit.form.Textarea");
 
         // Initialize properties and create the dialog
         constructor: function (parameters) {
+            this.propertiesTable = parameters.propertiesTable;
             this.presentationProperties = parameters.presentationProperties;
             this.property = parameters.property;
 
@@ -169,9 +171,27 @@ dojo.require("dijit.form.Textarea");
 
         // Run when the ok button is clicked
         _onOkClick: function () {
-            // Just hide the dialog for now...
-            // Will need to set the property value in the presentation properties here
-            this.dialog.hide();
+            var currentValue = this.jsonTextarea.get("value");
+            var finalValue = null;
+
+            try {
+                // Parse the value and stringify again without whitespace
+                finalValue = JSON.stringify(json_parse(currentValue));
+            } catch (e) {
+                alert("Save failed. The JSON is invalid. This editor can only be used to save valid JSON. Use the inline editor to save other values.")
+            }
+
+            // Set the value and hide the dialog if the parse was successful
+            if (finalValue !== null) {
+                // Set the value in the presentation properties
+                this.presentationProperties.editProperty(this.property.key, finalValue);
+
+                // Redraw the table of properties
+                this.propertiesTable.populateProperties(this.presentationProperties);
+
+                // Hide the dialog
+                this.dialog.hide();
+            }
         },
 
         // Run when the cancel button is clicked

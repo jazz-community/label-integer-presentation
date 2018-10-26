@@ -36,7 +36,7 @@ dojo.require("dijit.form.Textarea");
             // Show the dialog
             this.dialog.show().then(function () {
                 // Set the formatted value
-                self._setTextareaValue(self.property.value);
+                self._setTextareaValue(self.jsonTextarea.get("value"));
             })
         },
 
@@ -112,7 +112,7 @@ dojo.require("dijit.form.Textarea");
             // Disable all types of spell checking in the textarea
             // because it will be used for JSON.
             this.jsonTextarea = new Textarea({
-                value: this.property.value,
+                value: this._formatStringAsJson(this.property.value),
                 intermediateChanges: true, // Fire onChange events immediately
                 "class": "editPropertyAsJsonValueContainer",
                 "autocomplete": "off",
@@ -560,6 +560,88 @@ dojo.require("dijit.form.Textarea");
 
             // Return the coordinates "top", "left", and "height" (line height)
             return coordinates;
+        },
+
+        // Use to format a string as JSON. Useful when the JSON is invalid and
+        // using JSON.parse would throw an exception
+        _formatStringAsJson: function (input) {
+            var indentString = "  ";
+            var newLineString = "\n";
+            var indent = 0;
+            var quoted = false;
+            var output = "";
+
+            for (var i = 0; i < input.length; i++) {
+                var character = input[i];
+
+                switch (character) {
+                    case "{":
+                    case "[":
+                        output += character;
+
+                        if (!quoted) {
+                            output += newLineString;
+                            output += indentString.repeat(++indent);
+                        }
+
+                        break;
+
+                    case "}":
+                    case "]":
+                        if (!quoted) {
+                            // Make sure that the indent doesn't go below zero. Could happen with invalid JSON
+                            if (indent > 0) {
+                                indent--;
+                            }
+                            output += newLineString;
+                            output += indentString.repeat(indent);
+                        }
+
+                        output += character;
+                        break;
+
+                    case '"':
+                        output += character;
+
+                        var escaped = false;
+                        var index = i;
+
+                        while (index > 0 && input[--index] == "\\") {
+                            escaped = !escaped;
+                        }
+
+                        if (!escaped) {
+                            quoted = !quoted;
+                        }
+
+                        break;
+
+                    case ",":
+                        output += character;
+
+                        if (!quoted) {
+                            output += newLineString;
+                            output += indentString.repeat(indent);
+                        }
+
+                        break;
+
+                    case ":":
+                        output += character;
+
+                        if (!quoted) {
+                            output += " ";
+                        }
+
+                        break;
+
+                    default:
+                        output += character;
+                        break;
+                }
+            }
+
+            return output;
         }
     });
 })();

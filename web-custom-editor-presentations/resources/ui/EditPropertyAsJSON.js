@@ -16,6 +16,7 @@ dojo.require("dijit.form.Textarea");
         dialog: null,
         jsonTextarea: null,
         error: null,
+        validationResultNode: null,
 
         // Initialize properties and create the dialog
         constructor: function (parameters) {
@@ -136,7 +137,14 @@ dojo.require("dijit.form.Textarea");
             }, dialogContent);
 
             // Create the buttons with event handlers and place them
-            dojo.place(this._createButton("Validate JSON", "editPropertyAsJsonButton", dojo.hitch(this, this._onValidateClick)), buttonsContainer);
+            var validateButton = this._createButton("Validate JSON", "editPropertyAsJsonButton", dojo.hitch(this, this._onValidateClick));
+            dojo.attr(validateButton, "title", "Validate and format the JSON");
+            dojo.place(validateButton, buttonsContainer);
+
+            this.validationResultNode = dojo.create("div", {
+                "class": "editPropertyAsJsonButton editPropertyAsJsonValidationMessage"
+            }, buttonsContainer);
+
             dojo.place(this._createButton("Cancel", "editPropertyAsJsonButton editPropertyAsJsonButtonRight", dojo.hitch(this, this._onCancelClick)), buttonsContainer);
             dojo.place(this._createButton("OK", "editPropertyAsJsonButton editPropertyAsJsonButtonRight", dojo.hitch(this, this._onOkClick)), buttonsContainer);
 
@@ -277,7 +285,13 @@ dojo.require("dijit.form.Textarea");
         // Change the textarea border to red if there is an error.
         // Reset to the original color (green) if there is none
         _setErrorStatus: function (hasError) {
-            dojo.style(this.jsonTextarea.domNode, "border-color", hasError ? "red" : "");
+            var color = hasError ? "red" : "";
+            dojo.style(this.jsonTextarea.domNode, "border-color", color);
+            dojo.style(this.validationResultNode, "color", color);
+
+            this.validationResultNode.innerHTML = hasError
+                ? "The JSON is invalid"
+                : "The JSON is valid";
         },
 
         // Set the error message in the popup and position it

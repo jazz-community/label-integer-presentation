@@ -142,3 +142,10 @@
 .editPropertyAsJsonButton.editPropertyAsJsonButtonRight {
     float: right;
 }
+
+/* Style the validation message */
+.editPropertyAsJsonDialogContent
+.editPropertyAsJsonContainer
+.editPropertyAsJsonValidationMessage {
+    padding: 3px;
+}

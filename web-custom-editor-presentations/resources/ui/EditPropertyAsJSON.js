@@ -1,9 +1,11 @@
 dojo.provide("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.ui.EditPropertyAsJSON");
 
+dojo.require("com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations/library/JsonParse.js");
 dojo.require("dijit.Dialog");
 dojo.require("dijit.form.Textarea");
 
 (function () {
+    var json_parse = com.siemens.bt.jazz.workitemeditor.presentation.customEditorPresentations.library.JsonParse.json_parse;
     var Dialog = dijit.Dialog;
     var Textarea = dijit.form.Textarea;
 
@@ -22,6 +24,7 @@ dojo.require("dijit.form.Textarea");
 
             // Create the dialog right away
             this.dialog = this.createDialog();
+            console.log("json_parse", { json_parse: json_parse });
         },
 
         // Open the dialog and set the value

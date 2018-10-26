@@ -356,7 +356,7 @@ dojo.require("dijit.form.Textarea");
 
             // Just use the element offset plus the element dimension if the final
             // position would be larger (limits to the other edge)
-            finalPosition = Math.min(finalPosition, elementOffset + elementDimensionOffset)
+            finalPosition = Math.min(finalPosition, elementOffset + elementDimensionOffset);
 
             // Return the final position
             return finalPosition;

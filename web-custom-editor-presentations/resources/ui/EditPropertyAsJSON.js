@@ -555,22 +555,39 @@ dojo.require("dijit.form.Textarea");
         // Use to format a string as JSON. Useful when the JSON is invalid and
         // using JSON.parse would throw an exception
         _formatStringAsJson: function (input) {
+            // Define the string to be used as an indent
             var indentString = "  ";
+
+            // Define the new line string to use
             var newLineString = "\n";
+
+            // Keep track of how much to indent the current line
             var indent = 0;
+
+            // Keep track of whether the current character is in a JSON string
             var quoted = false;
+
+            // Build the output in this string
             var output = "";
 
+            // Iterate over all characters in the input string
             for (var i = 0; i < input.length; i++) {
+                // Get the current character
                 var character = input[i];
 
+                // Handle the character
                 switch (character) {
                     case "{":
                     case "[":
+                        // Add the character to the output
                         output += character;
 
+                        // Check that we're not in a string
                         if (!quoted) {
+                            // Add a new line to the output
                             output += newLineString;
+
+                            // Increase the indent and add it to the output
                             output += indentString.repeat(++indent);
                         }
 
@@ -578,54 +595,76 @@ dojo.require("dijit.form.Textarea");
 
                     case "}":
                     case "]":
+                        // Check that we're not in a string
                         if (!quoted) {
                             // Make sure that the indent doesn't go below zero. Could happen with invalid JSON
                             if (indent > 0) {
+                                // Reduce the indent
                                 indent--;
                             }
+
+                            // Add a new line to the output
                             output += newLineString;
+
+                            // Add the indent to the output
                             output += indentString.repeat(indent);
                         }
 
+                        // Add the character to the output
                         output += character;
                         break;
 
                     case '"':
+                        // Add the character to the output
                         output += character;
 
+                        // Keep track of the number of sequential escape characters preceding the current character
                         var escaped = false;
                         var index = i;
 
+                        // Look back in the input until a non escape character is found
                         while (index > 0 && input[--index] == "\\") {
+                            // Revert the escaped status every time another escape character is found
                             escaped = !escaped;
                         }
 
+                        // Check if the double quotes were escaped
                         if (!escaped) {
+                            // Revert the quoted status if the double quotes weren't escaped
                             quoted = !quoted;
                         }
 
                         break;
 
                     case ",":
+                        // Add the character to the output
                         output += character;
 
+                        // Check that we're not in a string
                         if (!quoted) {
+                            // Add a new line to the output
                             output += newLineString;
+
+                            // Add the indent to the output
                             output += indentString.repeat(indent);
                         }
 
                         break;
 
                     case ":":
+                        // Add the character to the output
                         output += character;
 
+                        // Check that we're not in a string
                         if (!quoted) {
+                            // Add a space to the output
                             output += " ";
                         }
 
                         break;
 
                     default:
+                        // Add the character to the output
                         output += character;
                         break;
                 }

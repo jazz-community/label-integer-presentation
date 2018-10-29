@@ -1,9 +1,11 @@
 define([
     "dojo/_base/declare",
+    "com.ibm.team.workitem.web.ui.internal.view.editor.presentations.attribute.IntegerPresentation",
+    "com.ibm.team.workitem.web.internal.registry.PresentationRegistry",
     "dojo/domReady!"
 ], function (declare) {
-    dojo.require("com.ibm.team.workitem.web.ui.internal.view.editor.presentations.attribute.IntegerPresentation");
-    dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry");
+    // Note that all of the above imports of ibm classes will log an error to the console but the classes are still loaded.
+    // Using dojo.require doesn't log an error but also doesn't require the module when using AMD syntax.
 
     // Define aliases for some built in classes
     var PresentationRegistry = com.ibm.team.workitem.web.internal.registry.PresentationRegistry;

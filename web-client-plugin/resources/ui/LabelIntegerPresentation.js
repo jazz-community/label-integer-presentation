@@ -1,9 +1,10 @@
-dojo.provide("com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation.ui.LabelIntegerPresentation");
+define([
+    "dojo/_base/declare",
+    "dojo/domReady!"
+], function (declare) {
+    dojo.require("com.ibm.team.workitem.web.ui.internal.view.editor.presentations.attribute.IntegerPresentation");
+    dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry");
 
-dojo.require("com.ibm.team.workitem.web.ui.internal.view.editor.presentations.attribute.IntegerPresentation");
-dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry");
-
-(function () {
     // Define aliases for some built in classes
     var PresentationRegistry = com.ibm.team.workitem.web.internal.registry.PresentationRegistry;
 
@@ -11,7 +12,7 @@ dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry")
     var presentationId = "com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation";
 
     // The label integer presentation declaration
-    var LabelIntegerPresentation = dojo.declare("com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation.ui.LabelIntegerPresentation",
+    var LabelIntegerPresentation = declare("com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation.ui.LabelIntegerPresentation",
         com.ibm.team.workitem.web.ui.internal.view.editor.presentations.attribute.IntegerPresentation,
     {
         // Call the inherited constructor manually
@@ -83,4 +84,4 @@ dojo.require("com.ibm.team.workitem.web.internal.registry.PresentationRegistry")
     if (typeof PresentationRegistry.getInstance().getPresentation(presentationId) === "undefined") {
         PresentationRegistry.getInstance().register(new LabelIntegerPresentation());
     }
-})();
+});

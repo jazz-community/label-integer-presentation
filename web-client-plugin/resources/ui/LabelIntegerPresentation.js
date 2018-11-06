@@ -1,9 +1,12 @@
 define([
     "dojo/_base/declare",
+    "dojo/dom-class",
+    "dojo/dom-construct",
+    "dojo/dom-style",
     "com.ibm.team.workitem.web.ui.internal.view.editor.presentations.attribute.IntegerPresentation",
     "com.ibm.team.workitem.web.internal.registry.PresentationRegistry",
     "dojo/domReady!"
-], function (declare) {
+], function (declare, domClass, domConstruct, domStyle) {
     // Note that all of the above imports of ibm classes will log an error to the console but the classes are still loaded.
     // Using dojo.require doesn't log an error but also doesn't require the module when using AMD syntax.
 
@@ -53,28 +56,28 @@ define([
 
         // Add some styling to the input element
         _styleInputElement: function (view, readOnly) {
-            dojo.addClass(readOnly ? view._value : view._input, "labelIntegerPresentationInput");
+            domClass.add(readOnly ? view._value : view._input, "labelIntegerPresentationInput");
         },
 
         // Add the right label to the view
         _addRightLabelToView: function (view, rightLabel, rightLabelWidth, readOnly) {
-            dojo.style(view.domNode, "display", "flex");
+            domStyle.set(view.domNode, "display", "flex");
 
             // Create an element for positioning the label
-            var rightLabelDiv = dojo.create("div", { "class": "labelIntegerPresentationRightLabel" }, view.domNode);
+            var rightLabelDiv = domConstruct.create("div", { "class": "labelIntegerPresentationRightLabel" }, view.domNode);
 
             // Add another css class if the presentation is editable
             if (!readOnly) {
-                dojo.addClass(rightLabelDiv, "labelIntegerPresentationRightLabelEditable");
+                domClass.add(rightLabelDiv, "labelIntegerPresentationRightLabelEditable");
             }
 
             // Set the custom width if it was set in the properties. Default is to fit the text
             if (rightLabelWidth) {
-                dojo.style(rightLabelDiv, "width", rightLabelWidth);
+                domStyle.set(rightLabelDiv, "width", rightLabelWidth);
             }
 
             // Create an element containing the label text
-            dojo.create("span", { innerHTML: rightLabel }, rightLabelDiv);
+            domConstruct.create("span", { innerHTML: rightLabel }, rightLabelDiv);
         }
     });
 

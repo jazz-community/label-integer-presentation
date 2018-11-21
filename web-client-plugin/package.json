@@ -1,0 +1,33 @@
+{
+    "name": "com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation",
+    "version": "1.0.0",
+    "description": "Custom Integer Attribute Presentation",
+    "main": "./resources/ui/LabelIntegerPresentation.js",
+    "devDependencies": {
+        "disable-output-webpack-plugin": "^1.0.1",
+        "jazz-update-site-webpack-plugin": "^0.4.1",
+        "moment": "^2.22.2",
+        "remove-files-webpack-plugin": "^1.0.0",
+        "webpack": "^4.16.2",
+        "webpack-cli": "^3.1.0"
+    },
+    "scripts": {
+        "build": "webpack --config ./webpack.config.js --mode production"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jazz-community/label-integer-presentation.git"
+    },
+    "keywords": [
+        "Jazz",
+        "RTC",
+        "Work Item",
+        "Integer Presentation"
+    ],
+    "author": "Martin Benninger, Siemens AG",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/jazz-community/label-integer-presentation/issues"
+    },
+    "homepage": "https://github.com/jazz-community/label-integer-presentation#readme"
+}

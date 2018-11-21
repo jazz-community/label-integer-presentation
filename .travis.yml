@@ -9,7 +9,7 @@ deploy:
   provider: releases
   api_key:
     secure: iHh4APDrUVUzXrPuCuyz28Alm2HtlwAO0JmyXtISNqy2yu7j5xwdwU5PsGVBjy8A12EQ4c7UFmmdf1W4ZY1wgqiHocImLDWSm5q6z2sVoFU446FSAAvUN3Vvu2k+r9Vmnm2tx0CCTgjWZYDPcGfy/EcATs15uqPwjlqUdEx47egF4svzhzlgEvHfnNsHrCBfoZJp35+mETVBzWvxYw9Wn3aUjZBz+osYAvwPMVy+s1NfOTrGCdygvRuKLPsk5tm10e00jBES86NvBDIZJAi8e2lUYM8Pm7vC+zu7eX/zEIPqTuhvrkCgxMjfslaXwZcI1WIjT1f+LLrt17SLibAtD9z0gyostH94sl+9dpgj/rn16WHAOMqTp+oDViTODw0jQHXvGCvqVQiOyi4vmqCjiJ40eUki5Ob/oCTtLW8ZrZzTyx4j97s2T4REQ3s328tqHHblmeGdpTiYjhB7/eA3Pp16MsR4OKyAhjtLLM78xIcLRCyr34fRRhnYLjKr8OALqB5DvEmnJxshsjsiiC6M9X5AMQ4q//G+tJ2A8Kqkvo1xreMPTy5PQxF9veWQTOo8s36nXmmXBCo+07Zhev7sDVASK9r5Uc8uDzQBnj2Gg//ouso9vf8qUWZq+FRXuO+99uw3Y87MPvzRgqatX+1d5kLFB63xdYOCLyGYE8iqOII=
-  file: web-client-plugin/com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation*.zip
+  file: com.siemens.bt.jazz.workitemeditor.presentation.labelIntegerPresentation*.zip
   file_glob: true
   skip_cleanup: true
   on:

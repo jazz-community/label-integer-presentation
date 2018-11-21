@@ -3,6 +3,7 @@ node_js:
 - 8
 script:
 - cd web-client-plugin
+- npm install
 - npm run build
 deploy:
   provider: releases

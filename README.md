@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jazz-community/label-integer-presentation.svg?branch=master)](https://travis-ci.org/jazz-community/label-integer-presentation)
+
 # label-integer-presentation
 A custom work item attribute presentation for adding a label to integer presentations
 

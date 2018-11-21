@@ -20,9 +20,9 @@ You can find the latest release on the [releases page of this repository](https:
 Deploy just like any other update site. See [here](https://github.com/jazz-community/rtc-email-workitem-action#installation) for an example.
 
 ### Configuration
-RTC doesn't support configuring custom attribute based presentations using the web UI (unless if you use our [pa-admin-ui-extensions](https://github.com/jazz-community/pa-admin-ui-extensions) plugin. Because of this, you'll have to use the RTC Eclipse Client.
+RTC doesn't support configuring custom attribute based presentations using the web UI (unless if you use our [pa-admin-ui-extensions](https://github.com/jazz-community/pa-admin-ui-extensions) plugin). Because of this, you'll have to use the RTC Eclipse Client.
 
-By default, the only way to use the presentation is by editing the process XML. If you don't feel comfortable doing this, you can download this repository and copy the `eclipse-client-plugin` to the `plugins` folder in your eclipse client installation. Then restart eclipse and the custom presentation should be available when configuring integer attributes.
+By default, the only way to use the presentation is by editing the process XML. If you don't feel comfortable doing this, you can download this repository and copy the `eclipse-client-plugin` folder to the `plugins` folder in your eclipse client installation. Then restart eclipse and the custom presentation should be available when configuring integer attributes.
 
 ### Customization
 This plugin supports customization with two presentation properties.

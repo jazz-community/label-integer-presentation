@@ -3,7 +3,7 @@
 # Custom Integer Attribute Presentation for RTC
 This plugin provides a custom presentation that can be used for integer work item attributes.
 
-(screenshot)
+![Overview Screenshot](https://github.com/jazz-community/label-integer-presentation/blob/master/documentation/label-integer-presentation.png)
 
 It works mostly the same as the built-in integer presentation with a few changes:
 - The integer is aligned to the right side of the input

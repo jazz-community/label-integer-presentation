@@ -8,7 +8,7 @@
         "jazz-update-site-webpack-plugin": "^0.4.1",
         "moment": "^2.22.2",
         "remove-files-webpack-plugin": "^1.0.0",
-        "webpack": "^4.16.2",
+        "webpack": "^4.26.1",
         "webpack-cli": "^3.1.0"
     },
     "scripts": {
